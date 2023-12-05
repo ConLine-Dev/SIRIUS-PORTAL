@@ -27,6 +27,7 @@
     (popoverTriggerEl) => new bootstrap.Popover(popoverTriggerEl)
   );
 
+  
   //switcher color pickers
   const pickrContainerPrimary = document.querySelector(
     ".pickr-container-primary"
@@ -260,9 +261,9 @@
       localStorage.removeItem("ynexHeader");
       localStorage.removeItem("bodylightRGB");
       localStorage.removeItem("bodyBgRGB");
-      if (localStorage.getItem("ynexlayout") != "horizontal") {
-        html.setAttribute("data-menu-styles", "dark");
-      }
+      // if (localStorage.getItem("ynexlayout") != "horizontal") {
+      //   html.setAttribute("data-menu-styles", "dark");
+      // }
       html.setAttribute("data-header-styles", "light");
     } else {
       html.setAttribute("data-theme-mode", "dark");
@@ -293,6 +294,8 @@
   let layoutSetting = document.querySelector(".layout-setting");
   layoutSetting.addEventListener("click", toggleTheme);
   /* header theme toggle */
+
+ 
 
   /* Choices JS */
   document.addEventListener("DOMContentLoaded", function () {

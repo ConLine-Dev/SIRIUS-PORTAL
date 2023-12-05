@@ -6,7 +6,7 @@ const fs = require('fs');
 
 router.get('/', async (req, res, next) => {
     // Se a rota raiz for acessada, carregue a página home
-    const pagePath = path.join(__dirname, '../', 'public/pages/inicio.html');
+    const pagePath = path.join(__dirname, '../', 'public/pages/home.html');
 
     if (fs.existsSync(pagePath)) {
         res.sendFile(pagePath);

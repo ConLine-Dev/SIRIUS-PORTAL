@@ -15091,7 +15091,9 @@ hr {
 
 .main-header-container .main-header-dropdown {
     box-shadow: 0 .25rem .625rem rgba(20, 20, 20, .1);
-    inset-block-start: -3px !important
+    inset-block-start: -3px !important;
+    /* transform: translate(10px, 61px) !important;  */
+    
 }
 
 .main-header-container .main-header-dropdown.header-shortcuts-dropdown {

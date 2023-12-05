@@ -1,11 +1,12 @@
 const sql = require('mssql');
+require('dotenv').config()
 
 const config = {
   user: process.env.HEADCARGO_DB_USER,
   password: process.env.HEADCARGO_DB_PASSWORD,
   server: process.env.HEADCARGO_DB_HOST,
   database: process.env.HEADCARGO_DB_NAME,
-  port: process.env.HEADCARGO_DB_PORT,
+  port: Number(process.env.HEADCARGO_DB_PORT),
   options: {
     encrypt: false,
     requestTimeout: 200000 // tempo limite em milissegundos
@@ -16,6 +17,7 @@ const config = {
     idleTimeoutMillis: 30000
   }
 };
+
 
 
 const pool = new sql.ConnectionPool(config);
