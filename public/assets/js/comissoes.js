@@ -1,4 +1,5 @@
 
+
 // Formatting function for row details - modify as you need
 function format(d) {
     // `d` is the original data object for the row
@@ -64,22 +65,37 @@ table.on('click', 'td.dtr-control', function (e) {
     }
 });
 
+// Função para obter ou carregar a imagem do cache, usando localStorage
+function getCachedImage(id) {
+    const cachedUrl = localStorage.getItem(`imageCache_${id}`);
+    
+
+    if (cachedUrl) {
+        return cachedUrl;
+    } else {
+        const newUrl = `https://cdn.conlinebr.com.br/colaboradores/${id}`;
+        localStorage.setItem(`imageCache_${id}`, newUrl);
+        return newUrl;
+    }
+}
+
+// Função para formatar o estado com a imagem do cache
 function formatState(state) {
     if (!state.id) {
         return state.text;
     }
-    var baseUrl = "../assets/images/photo.png";
-    var $state = $(
-        '<span><img src="' + baseUrl + '" class="img-flag" > ' + state.text + '</span>'
-    );
-    return $state;
-};
 
-$(".js-example-templating").select2({
-    templateResult: formatState,
-    templateSelection: formatState, // Use the same format for the selected option,
-    placeholder: "Choose Customer"
-});
+    const imageUrl = getCachedImage(state.id);
+
+    const $state = $(
+        `<span><img src="${imageUrl}" class="img-flag"> ${state.text}</span>`
+    );
+
+    return $state;
+}
+
+
+
 
 
 // document.querySelector('.dataTables_scroll').style.minHeight = (cadFiltros.clientHeight - 200) + 'px';
@@ -94,8 +110,14 @@ ButtonSearchComissoes.addEventListener('click', async function(e){
     const loader = document.getElementById("loader");
     loader.classList.remove("d-none")
 
-    const tableCommissions = await Thefetch('/api/commissionByUser', 'POST', { body: JSON.stringify({UserId:1, type:1})})
-    console.log(tableCommissions)
+    const type = {
+        vendedor: document.getElementById('vendedor').checked,
+        inside: document.getElementById('inside').checked
+    }
+
+    const idUser = $('.js-example-templating').val()
+    const tableCommissions = await Thefetch('/api/commissionByUser', 'POST', { body: JSON.stringify({UserId:idUser, type:type})})
+
 
         // Limpar tabela antes de adicionar novos dados
     table.clear();
@@ -104,28 +126,27 @@ ButtonSearchComissoes.addEventListener('click', async function(e){
     tableCommissions.forEach(dados => {
 
 
-
         const newDados = {
             check: `<input class="form-check-input" checked="" type="checkbox" value="" id="electronics">`,
             open: ``,
             modal: `<img title="${dados.MODAL}" src="/assets/images/${dados.MODAL == 'IM' ? 'maritimo_importacao' : dados.MODAL == 'EM' ? 'maritimo_exportacao' : dados.MODAL == 'IA' ? 'aereo_importacao' : 'aereo_exportacao' }.svg" style="width: 1.75rem;height: 1.75rem;">`,
             processo: dados.Numero_Processo,
             abertura: new Date(dados.Data_Abertura_Processo).toLocaleDateString(),
-            cliente: formatarNomeCompleto(dados.CLIENTE),
+            // cliente: formatarNomeCompleto(dados.CLIENTE),
             vendedor: `<td>
                         <div class="d-flex align-items-center gap-2">
                         <span class="avatar avatar-xs avatar-rounded">
-                            <img src="https://cdn.conlinebr.com.br/colaboradores/${dados.ID_VENDEDOR}" alt="">
+                            <img src="${getCachedImage(dados.ID_VENDEDOR)}" alt="">
                         </span>
-                        <div class="">${dados.VENDEDOR}</div>
+                        <div class="">${formatarNomeCompleto(dados.VENDEDOR)}</div>
                         </div>
                     </td>`,
             inside: `<td>
                 <div class="d-flex align-items-center gap-2">
                 <span class="avatar avatar-xs avatar-rounded">
-                    <img src="https://cdn.conlinebr.com.br/colaboradores/${dados.ID_INSIDE_SALES}" alt="">
+                    <img src="${getCachedImage(dados.ID_INSIDE_SALES)}" alt="">
                 </span>
-                <div class="">${dados.INSIDE_SALES}</div>
+                <div class="">${formatarNomeCompleto(dados.INSIDE_SALES)}</div>
                 </div>
             </td>`,
             efetivo: (dados.VALOR_EFETIVO_TOTAL).toLocaleString('pt-BR', {
@@ -151,7 +172,32 @@ ButtonSearchComissoes.addEventListener('click', async function(e){
     // Atualizar a exibição da tabela
     table.draw();
     loader.classList.add("d-none")
+
+
+    // const comissionado = document.querySelector('.js-example-templating')
+   
 })
+
+
+async function listComissionados(){
+    const comissionados = await Thefetch('/api/listUser', 'POST', { body: JSON.stringify({UserId:1, type:1})})
+    const selectComissionados = document.querySelector('.js-example-templating');
+    selectComissionados.innerHTML = ''
+    for (let index = 0; index < comissionados.length; index++) {
+        const element = comissionados[index];
+
+        selectComissionados.innerHTML += `<option value="${element.IdPessoa}">${formatarNomeCompleto(element.Nome)}</option>`
+
+    }
+
+
+    $(".js-example-templating").select2({
+        templateResult: formatState,
+        templateSelection: formatState, // Use the same format for the selected option,
+        placeholder: "Selecione"
+    });
+}
+listComissionados()
 
 
 
@@ -171,6 +217,7 @@ function formaDate(dataOriginal){
 }
 
 function formatarNomeCompleto(nomeCompleto) {
+    if(nomeCompleto != null){
     // Lista de prefixos que devem permanecer em minúsculas
     const prefixos = ["de", "da", "do", "dos", "das"];
 
@@ -191,4 +238,8 @@ function formatarNomeCompleto(nomeCompleto) {
     let nomeFormatado = `${primeiroNome} ${sobrenome}`;
 
     return nomeFormatado;
+    }else{
+        return 'não selecionado'
+    }
+    
 }

@@ -3,7 +3,7 @@
 <head >
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sirius - Parceiros</title>
+    <title>Sirius - Comissões</title>
     <link rel="icon" href="../assets/images/brand-logos/favicon.ico" type="image/x-icon">
 
     <link id="style" href="../assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -478,19 +478,19 @@
                 <!-- End::header-link|dropdown-toggle -->
                 <ul class="main-header-dropdown dropdown-menu pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end" aria-labelledby="mainHeaderProfile">
                   <li>
-                    <a class="dropdown-item d-flex" href="#">
+                    <a class="dropdown-item d-flex" href="profile.html">
                       <i class="ti ti-user-circle fs-18 me-2 op-7"></i>Perfil </a>
                   </li>
                   <li>
-                    <a class="dropdown-item d-flex" href="#">
+                    <a class="dropdown-item d-flex" href="mail-settings.html">
                       <i class="ti ti-adjustments-horizontal fs-18 me-2 op-7"></i>Configurações </a>
                   </li>
                   <li>
-                    <a class="dropdown-item d-flex" href="#">
+                    <a class="dropdown-item d-flex" href="chat.html">
                       <i class="ti ti-headset fs-18 me-2 op-7"></i>Suporte </a>
                   </li>
                   <li>
-                    <a class="dropdown-item d-flex" href="/login">
+                    <a class="dropdown-item d-flex" href="sign-in-cover.html">
                       <i class="ti ti-logout fs-18 me-2 op-7"></i>Deslogar </a>
                   </li>
                 </ul>
@@ -639,17 +639,13 @@
             <!-- Page Header Close -->
             <!-- Start::row-1 -->
             <div class="row">
-              <div class="col-md-9">
+              <div class="col-md-12">
                 <div class="card custom-card bodyCardComissoes">
                   <div class="card-header justify-content-between">
-                    <div class="card-title">Gerenciamento de Comissões </div>
+                    <div class="card-title">Histórico de Comissões </div>
                     <div class="d-flex flex-wrap gap-2">
                  
-                      <div>
-                        <a href="javascript:void(0);"  class="btn btn-primary btn-sm btn-wave waves-effect waves-light " data-bs-toggle="dropdown" aria-expanded="false"> Gerar
-                        </a>
-                      
-                      </div>
+                 
                   
                     </div>
                   </div>
@@ -658,17 +654,11 @@
                       <table id="table-comissoes" class="table table-bordered text-nowrap w-100 dataTable no-footer collapsed">
                         <thead>
                           <tr>
-                            <th scope="col"><input class="form-check-input" checked="" type="checkbox" value="" id="electronics"></th>
-                            <th scope="col"></th>
-                            <th scope="col" style="width: 10px;">Modal</th>
-                            <th scope="col">Processo</th>
-                            <th scope="col">Abertura</th>
-                            <!-- <th scope="col">Cliente</th> -->
-                            <th scope="col">Vendedor</th>
-                            <th scope="col">Inside</th>
-                            <th scope="col">Efetivo</th>
-                            <th scope="col">%</th>
-                            <th scope="col">Comissão</th>
+                            <th scope="col">Referência</th>
+                            <th scope="col">Comissionado</th>
+                            <th scope="col">Data</th>
+                            <th scope="col">Valor</th>
+                            <th scope="col">Status</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -679,278 +669,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-3">
-                <div class="card custom-card cardFiltros">
-
-                  <div class="card-body p-0">
-                    <div class="p-4" style="padding-bottom: 0 !important;">
-                      <button class="btn btn-warning btn-sm btn-wave waves-effect waves-light btn_searchComissoes" style="width: 100%;">Pesquisar Comissões</button>
-                    </div>
-
-                    <div class="p-4 border-bottom" style="padding-bottom: 0 !important;padding-top: 11px !important;">
-                      <p class="fs-11 text-muted op-7 fw-semibold" style="margin-bottom: 0;">Tipo de comissão</p>
-                      <div class="px-2 py-3 pb-0" style="padding-top: 6px !important;padding-left: 0!important;">
-
-                        <div class="form-check mb-2">
-                          <input class="form-check-input" type="checkbox" value="" id="vendedor">
-                          <label class="form-check-label" for="electronics"> Vendedor Externo</label>
-                        </div>
-
-                        <div class="form-check mb-2">
-                          <input class="form-check-input" type="checkbox" value="" id="inside">
-                          <label class="form-check-label" for="electronics"> Vendedor Interno (Inside Sales) </label>
-                        </div>
-
-
-                      </div>
-                    </div>
-
-                   
-                    
-                  </div>
-
-
-                  <div class="card-body p-0">
-                    <div class="p-4 border-bottom" style="padding-bottom: 10px !important;padding-top: 11px !important;">
-                      <p class="fs-11 text-muted op-7 fw-semibold" style="margin-bottom: 0;">Comissionado</p>
-             
-                      <select class="js-example-templating js-persons form-control select2-hidden-accessible" data-select2-id="select2-data-14-g6k6" tabindex="-1" aria-hidden="true">
-                    
-                      </select>
-             
-                    </div>
-                    
-                  
-                  </div>
-
-
-
-
-                  <!-- <div class="card-body p-0">
-                    <div class="p-4 border-bottom" style="padding-bottom: 0 !important;padding-top: 11px !important;">
-                      <p class="fs-11 text-muted op-7 fw-semibold" style="margin-bottom: 0;">Recebimento</p>
-                      <div class="px-2 py-3 pb-0" style="padding-top: 6px !important;padding-left: 0!important;">
-
-                        <div class="form-check mb-2">
-                          <input class="form-check-input" type="checkbox" value="" id="electronics">
-                          <label class="form-check-label" for="electronics"> Pendente </label>
-                        </div>
-
-                        <div class="form-check mb-2">
-                          <input class="form-check-input" type="checkbox" value="" id="electronics">
-                          <label class="form-check-label" for="electronics"> Sem recebimento </label>
-                        </div>
-
-                        <div class="form-check mb-2">
-                          <input class="form-check-input" checked type="checkbox" value="" id="electronics">
-                          <label class="form-check-label" for="electronics"> Recebido </label>
-                        </div>
-
-                      </div>
-                    </div>
-                    
-                  
-                  </div> -->
-
-                  <!-- <div class="card-body p-0">
-                    <div class="p-4 border-bottom" style="padding-bottom: 0 !important;padding-top: 11px !important;">
-                      <p class="fs-11 text-muted op-7 fw-semibold" style="margin-bottom: 0;">Pagamento</p>
-                      <div class="px-2 py-3 pb-0" style="padding-top: 6px !important;padding-left: 0!important;">
-
-                        <div class="form-check mb-2">
-                          <input class="form-check-input" type="checkbox" value="" id="electronics">
-                          <label class="form-check-label" for="electronics"> Pendente </label>
-                        </div>
-
-                        <div class="form-check mb-2">
-                          <input class="form-check-input" type="checkbox" value="" id="electronics">
-                          <label class="form-check-label" for="electronics"> Sem pagamento </label>
-                        </div>
-
-                        <div class="form-check mb-2">
-                          <input class="form-check-input" checked type="checkbox" value="" id="electronics">
-                          <label class="form-check-label" for="electronics"> Pago </label>
-                        </div>
-
-                      </div>
-                    </div>
-                    
-                  
-                  </div> -->
-
-                  <!-- <div class="card-body p-0">
-                    <div class="p-4 border-bottom" style="padding-bottom: 0 !important;padding-top: 11px !important;">
-                      <p class="fs-11 text-muted op-7 fw-semibold" style="margin-bottom: 0;">Agente</p>
-                      <div class="px-2 py-3 pb-0" style="padding-top: 6px !important;padding-left: 0!important;">
-
-                        <div class="form-check mb-2">
-                          <input class="form-check-input" checked type="checkbox" value="" id="electronics">
-                          <label class="form-check-label" for="electronics"> Pendente </label>
-                        </div>
-
-                        <div class="form-check mb-2">
-                          <input class="form-check-input" checked type="checkbox" value="" id="electronics">
-                          <label class="form-check-label" for="electronics"> Sem pagamento </label>
-                        </div>
-
-                        <div class="form-check mb-2">
-                          <input class="form-check-input" checked type="checkbox" value="" id="electronics">
-                          <label class="form-check-label"  for="electronics"> Pago </label>
-                        </div>
-
-                      </div>
-                    </div>
-                    
-                  
-                  </div> -->
-
           
-<!-- 
-                  <div class="card-body p-0">
-                    <div class="p-4 border-bottom" style="padding-bottom: 0 !important;padding-top: 11px !important;">
-                      <p class="fs-11 text-muted op-7 fw-semibold" style="margin-bottom: 0;">Comissão</p>
-                      <div class="px-2 py-3 pb-0" style="padding-top: 6px !important;padding-left: 0!important;">
-
-                        <div class="form-check mb-2">
-                          <input class="form-check-input" type="checkbox" value="" id="electronics">
-                          <label class="form-check-label" for="electronics"> Pago </label>
-                        </div>
-
-                        <div class="form-check mb-2">
-                          <input class="form-check-input" checked type="checkbox" value="" id="electronics">
-                          <label class="form-check-label" for="electronics"> Sem pagamento </label>
-                        </div>
-
-                     
-
-                      </div>
-                    </div>
-                    
-                  
-                  </div> -->
-
-
-                  <!-- <div class="card-body p-0">
-                    <div class="p-4 border-bottom" style="padding-bottom: 0 !important;padding-top: 11px !important;">
-                      <p class="fs-11 text-muted op-7 fw-semibold" style="margin-bottom: 0;">Modal</p>
-                      <div class="px-2 py-3 pb-0" style="padding-top: 6px !important;padding-left: 0!important;">
-
-                        <div class="form-check mb-2">
-                          <input class="form-check-input" checked type="checkbox" value="" id="electronics">
-                          <label class="form-check-label" for="electronics"> Importação Marítima </label>
-                        </div>
-                        <div class="form-check mb-2">
-                          <input class="form-check-input" checked type="checkbox" value="" id="electronics">
-                          <label class="form-check-label" for="electronics"> Exportação Marítima </label>
-                        </div>
-                        <div class="form-check mb-2">
-                          <input class="form-check-input" checked type="checkbox" value="" id="electronics">
-                          <label class="form-check-label" for="electronics"> Nacional Marítima </label>
-                        </div>
-                 
-
-                        <div class="form-check mb-2">
-                          <input class="form-check-input" checked type="checkbox" value="" id="electronics">
-                          <label class="form-check-label" for="electronics"> Importação Aérea </label>
-                        </div>
-
-                        <div class="form-check mb-2">
-                          <input class="form-check-input" checked type="checkbox" value="" id="electronics">
-                          <label class="form-check-label" for="electronics"> Exportação Aérea </label>
-                        </div>
-
-                     
-                        <div class="form-check mb-2">
-                          <input class="form-check-input" checked type="checkbox" value="" id="electronics">
-                          <label class="form-check-label" for="electronics"> Aéreo Nacional  </label>
-                        </div>
-
-                        <div class="form-check mb-2">
-                          <input class="form-check-input" checked type="checkbox" value="" id="electronics">
-                          <label class="form-check-label" for="electronics"> Terrestre Nacional </label>
-                        </div>
-
-                        <div class="form-check mb-2">
-                          <input class="form-check-input" checked type="checkbox" value="" id="electronics">
-                          <label class="form-check-label" for="electronics"> Terrestre Exportação </label>
-                        </div>
-
-                        <div class="form-check mb-2">
-                          <input class="form-check-input" checked type="checkbox" value="" id="electronics">
-                          <label class="form-check-label" for="electronics"> Terrestre Importação </label>
-                        </div>
-
-
-
-
-                      </div>
-                    </div>
-                    
-                  
-                  </div> -->
-
-                </div>
-                <div class="card custom-card overflow-hidden">
-                  <div class="card-header justify-content-between">
-                    <div class="card-title"> Histórico </div>
-                    <div>
-                      <button class="btn btn-info-light btn-sm btn-wave waves-effect waves-light">Ver todas</button>
-                    </div>
-                  </div>
-                  <div class="card-body p-0">
-                    <ul class="list-group list-group-flush">
-                      <li class="list-group-item">
-                        <div class="d-flex align-items-center justify-content-between  flex-wrap">
-                          <div class="d-flex align-items-center gap-2">
-                            <div>
-                              <span class="avatar  p-1 bg-light">
-                                <img src="https://cdn.conlinebr.com.br/colaboradores/100" alt="">
-                              </span>
-                            </div>
-                            <div>
-                              <span class="d-block fw-semibold">Comissionado</span>
-                              <span class="d-block text-muted fs-12 fw-normal">Petryck William</span>
-                            </div>
-                          </div>
-                          <div>
-                            <span class="fs-12 text-muted">Valor</span>
-                            <span class="fw-semibold d-block">R$ 2.423,25</span>
-                          </div>
-                          <div>
-                            <span class="fs-12 text-muted">Data</span>
-                            <span class="fw-semibold d-block">05/12/2023</span>
-                          </div>
-                        </div>
-                      </li>
-
-                      <li class="list-group-item">
-                        <div class="d-flex align-items-center justify-content-between  flex-wrap">
-                          <div class="d-flex align-items-center gap-2">
-                            <div>
-                              <span class="avatar  p-1 bg-light">
-                                <img src="https://cdn.conlinebr.com.br/colaboradores/100" alt="">
-                              </span>
-                            </div>
-                            <div>
-                              <span class="d-block fw-semibold">Comissionado</span>
-                              <span class="d-block text-muted fs-12 fw-normal">Petryck William</span>
-                            </div>
-                          </div>
-                          <div>
-                            <span class="fs-12 text-muted">Valor</span>
-                            <span class="fw-semibold d-block">R$ 2.423,25</span>
-                          </div>
-                          <div>
-                            <span class="fs-12 text-muted">Data</span>
-                            <span class="fw-semibold d-block">05/12/2023</span>
-                          </div>
-                        </div>
-                      </li>
-                     
-                    </ul>
-                  </div>
-                </div>
-              </div>
              
             </div>
             <!--End::row-1 -->
