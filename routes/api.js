@@ -35,7 +35,7 @@ router.post('/commissionByUser', async (req, res, next) => {
     const result = await commission.getByUser(UserId, type)
       res.status(200).json(result)
   } catch (error) {
-
+    console.log(error)
       res.status(404).json('error')   
   }
   
@@ -44,6 +44,8 @@ router.post('/commissionByUser', async (req, res, next) => {
 router.post('/listUser', async (req, res, next) => {
    try {
      const result = await commission.listUser()
+
+     console.log(result)
        res.status(200).json(result)
    } catch (error) {
  
@@ -51,6 +53,19 @@ router.post('/listUser', async (req, res, next) => {
    }
    
  });
+
+
+router.post('/RegisterCommission', async (req, res, next) => {
+  const {body} = req.body
+try {
+  const result = await commission.RegisterCommission(body)
+    res.status(200).json(result)
+} catch (error) {
+  console.log(error)
+    res.status(404).json('error')   
+}
+
+});
  
 
 

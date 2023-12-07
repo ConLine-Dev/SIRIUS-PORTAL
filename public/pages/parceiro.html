@@ -643,27 +643,19 @@
                 <div class="card custom-card bodyCardComissoes">
                   <div class="card-header justify-content-between">
                     <div class="card-title">Gerenciamento de Comissões </div>
-                    <div class="d-flex flex-wrap gap-2">
-                 
-                      <div>
-                        <a href="javascript:void(0);"  class="btn btn-primary btn-sm btn-wave waves-effect waves-light " data-bs-toggle="dropdown" aria-expanded="false"> Gerar
-                        </a>
-                      
-                      </div>
-                  
-                    </div>
+                   
                   </div>
                   <div class="card-body">
+                    <div class="cardLoader"></div>
         
                       <table id="table-comissoes" class="table table-bordered text-nowrap w-100 dataTable no-footer collapsed">
                         <thead>
                           <tr>
-                            <th scope="col"><input class="form-check-input" checked="" type="checkbox" value="" id="electronics"></th>
+                            <th scope="col"><input class="form-check-input checkTableComissoesAll" checked="" type="checkbox" value=""></th>
                             <th scope="col"></th>
                             <th scope="col" style="width: 10px;">Modal</th>
                             <th scope="col">Processo</th>
-                            <th scope="col">Abertura</th>
-                            <!-- <th scope="col">Cliente</th> -->
+                            <th scope="col">Auditado</th>
                             <th scope="col">Vendedor</th>
                             <th scope="col">Inside</th>
                             <th scope="col">Efetivo</th>
@@ -671,6 +663,7 @@
                             <th scope="col">Comissão</th>
                           </tr>
                         </thead>
+                        
                         <tbody>
                       
                         </tbody>
@@ -682,32 +675,7 @@
               <div class="col-md-3">
                 <div class="card custom-card cardFiltros">
 
-                  <div class="card-body p-0">
-                    <div class="p-4" style="padding-bottom: 0 !important;">
-                      <button class="btn btn-warning btn-sm btn-wave waves-effect waves-light btn_searchComissoes" style="width: 100%;">Pesquisar Comissões</button>
-                    </div>
-
-                    <div class="p-4 border-bottom" style="padding-bottom: 0 !important;padding-top: 11px !important;">
-                      <p class="fs-11 text-muted op-7 fw-semibold" style="margin-bottom: 0;">Tipo de comissão</p>
-                      <div class="px-2 py-3 pb-0" style="padding-top: 6px !important;padding-left: 0!important;">
-
-                        <div class="form-check mb-2">
-                          <input class="form-check-input" type="checkbox" value="" id="vendedor">
-                          <label class="form-check-label" for="electronics"> Vendedor Externo</label>
-                        </div>
-
-                        <div class="form-check mb-2">
-                          <input class="form-check-input" type="checkbox" value="" id="inside">
-                          <label class="form-check-label" for="electronics"> Vendedor Interno (Inside Sales) </label>
-                        </div>
-
-
-                      </div>
-                    </div>
-
-                   
-                    
-                  </div>
+                
 
 
                   <div class="card-body p-0">
@@ -720,8 +688,11 @@
              
                     </div>
                     
-                  
+                    <div class="p-4" style="padding-bottom: 0 !important;">
+                      <button class="btn btn-warning btn-sm btn-wave waves-effect waves-light btn_searchComissoes" style="width: 100%;">Pesquisar Comissões</button>
+                    </div>
                   </div>
+                  <br>
 
 
 
@@ -890,6 +861,65 @@
                   </div> -->
 
                 </div>
+
+                <div class="card custom-card overflow-hidden">
+                  <div class="card-header justify-content-between">
+                    <div class="card-title"> Informações</div>
+                    <div>
+                      <span class="badge bg-info me-3 NameComissionado" style="width: 100%;">-</span>
+                    </div>
+                  </div>
+                  <div class="card-body p-0">
+                    <ul class="mb-0 pt-3 list-unstyled" style="padding-left: 20px;padding-right: 20px;padding-bottom: 20px;">
+                      <li class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <div class="d-flex align-items-center lh-1">
+                            
+                            Vendedor
+                          </div>
+                          <div class="fs-14"><b>3 %</b></div>
+                        </div>
+                      </li>
+                      <li class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <div class="d-flex align-items-center lh-1">
+                            
+                           Inside Sales
+                          </div>
+                          <div class="fs-14"><b>1 %</b></div>
+                        </div>
+                      </li>
+                    </ul>
+                    <div class="row">
+                      <div class="col-xl-12 border-bottom pb-3 text-center d-flex flex-wrap">
+                        <span class="fw-semibold ms-2 text-primary px-4">Informações sobre os registros selecionados</span>
+                      </div>
+                      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 border-end p-3 text-center">
+                        <p class="mb-1">Nrº Processos</p>
+                        <h5 class="mb-1 fw-semibold" id="NumberProcess">-</h5>
+                      </div>
+                      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 p-3 text-center">
+                        <p class="mb-1">Valor Comissão</p>
+                        <h5 class="mb-1 fw-semibold" id="valueProcess">-</h5>
+                      
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="d-flex flex-wrap gap-2">
+                 
+                        <div style="width: 100%;">
+                          <a style="width: 100%;" href="#" class="disabled btn btn-primary btn-sm btn-wave waves-effect waves-light btnGerarComissoes" aria-expanded="false"> Gerar registro de comissões
+                          </a>
+                        
+                        </div>
+                    
+                      </div>
+                    </div>
+                    
+                  
+                  </div>
+                </div>
+
                 <div class="card custom-card overflow-hidden">
                   <div class="card-header justify-content-between">
                     <div class="card-title"> Histórico </div>
@@ -950,6 +980,7 @@
                     </ul>
                   </div>
                 </div>
+             
               </div>
              
             </div>
