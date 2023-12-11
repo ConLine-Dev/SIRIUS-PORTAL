@@ -21,11 +21,7 @@ router.post('/upload', upload.single('file'), async (req, res) => {
       console.error(error);
       res.status(500).send('Erro ao processar o arquivo XLSX.');
     }
-  });
-
-
-
-
+});
 
 
 router.post('/commissionByUser', async (req, res, next) => {
@@ -35,7 +31,6 @@ router.post('/commissionByUser', async (req, res, next) => {
     const result = await commission.getByUser(UserId, type)
       res.status(200).json(result)
   } catch (error) {
-    console.log(error)
       res.status(404).json('error')   
   }
   
@@ -45,14 +40,27 @@ router.post('/listUser', async (req, res, next) => {
    try {
      const result = await commission.listUser()
 
-     console.log(result)
-       res.status(200).json(result)
+     res.status(200).json(result)
    } catch (error) {
  
        res.status(404).json('error')   
    }
    
  });
+
+router.post('/getValuesCommisionsByUser', async (req, res, next) => {
+  const {UserId} = req.body
+try {
+  const result = await commission.getValuesCommisionsByUser(UserId)
+
+    res.status(200).json(result)
+} catch (error) {
+
+    res.status(404).json('error')   
+}
+
+});
+
 
 
 router.post('/RegisterCommission', async (req, res, next) => {

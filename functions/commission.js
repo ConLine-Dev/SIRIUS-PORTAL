@@ -6,6 +6,13 @@ const { isNumberObject } = require('util/types');
 
 const commission = {
     dados: [],
+    getValuesCommisionsByUser: async function(id){
+        const commissions = await executeQuery(`SELECT DISTINCT commission_percentage.*,collaborators.id_headcargo  FROM commission_percentage
+        JOIN collaborators ON collaborators.id = id_collaborators WHERE id_headcargo = ${id}`)
+
+
+        return commissions
+    },
     listUser: async function(){
         const ListUsersHeadcago = await headCargoQuery(`SELECT * FROM vis_Vendedor_InsideSales`)
         
@@ -24,7 +31,7 @@ const commission = {
             return array.findIndex(i => i.IdPessoa === item.IdPessoa) === index;
           });
 
-   
+          console.log(await this.criarReferencia())
         return novoArray;
     },
     getByUser: async function(id) {
@@ -68,10 +75,38 @@ const commission = {
         return result;
     },
     RegisterCommission: async function(body){
+
+
+
+        for (let index = 0; index < body.length; index++) {
+            const element = body[index];
+
+            const commissions = await executeQuery(`INSERT INTO commission_history 
+            (reference, id_process, id_seller, id_inside, effective, percentage, commission, create_date) 
+            VALUES 
+            ('dsa', '321', '321', '321', '321', '321', '321', '321');
+            `)
+           
+            
+        }
         return body
+    },
+    criarReferencia: async function(){
+        const commissions =  await executeQuery(`SELECT * FROM commission_reference`)
+        const NumberCommission = commissions.length + 1;
+        console.log(commissions.length)
+        // Garante que a quantidade seja formatada com pelo menos 4 dígitos
+        const quantidadeFormatada = String(NumberCommission).padStart(4, '0');
+        const anoAtual = new Date().getFullYear();
+        // Obtém os dois últimos dígitos do ano atual
+        const doisUltimosDigitosAno = String(anoAtual).slice(-2);
+
+        // Combina os elementos para formar a referência
+        const referencia = `CMS${quantidadeFormatada}-${doisUltimosDigitosAno}`;
+
+        return referencia;
     }
 }
-
 
 
 module.exports = {

@@ -83,6 +83,8 @@ async function handleSearchComissoes(e) {
     const meuLoader = adicionarLoader('.bodyCardComissoes .cardLoader');
 
     const idUser = $('.js-example-templating').val();
+    const valuesComissions = await Thefetch('/api/getValuesCommisionsByUser', 'POST', { body: JSON.stringify({ UserId: idUser}) }); 
+
     const tableCommissions = await Thefetch('/api/commissionByUser', 'POST', { body: JSON.stringify({ UserId: idUser}) });
 
     if(!tables['GerenciamentoComissoes']){
@@ -137,6 +139,12 @@ async function handleSearchComissoes(e) {
 
 
     document.querySelector('.btnGerarComissoes').classList.remove('disabled')
+
+    const vendedorComission = valuesComissions.find(item => item.type == 1);
+    const insideComission = valuesComissions.find(item => item.type == 2);
+
+    document.querySelector('.percentagemVededor').textContent = vendedorComission.percentage+' %'
+    document.querySelector('.percentagemInside').textContent = insideComission.percentage+' %'
 
 }
 
@@ -261,6 +269,13 @@ function getInfComissoes(){
     document.querySelector('#NumberProcess').textContent = checkboxesSelecionados.length;
     document.querySelector('#valueProcess').textContent = formatCurrency(valueComission);
 
+    if(checkboxesSelecionados.length > 0){
+        buttonGenerate.classList.remove('disabled')
+    }else{
+        buttonGenerate.classList.add('disabled')
+    }
+    
+
 }
 
 
@@ -303,6 +318,9 @@ buttonGenerate.addEventListener('click', async function(e) {
    buttonGenerate.textContent = text;
    buttonGenerate.classList.remove('disabled')
 })
+
+
+
 
 
 

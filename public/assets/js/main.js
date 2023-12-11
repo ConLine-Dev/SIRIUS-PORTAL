@@ -260,3 +260,15 @@ function Thefetch(url, method, options = {}) { // Função Thefetch com 3 parâm
         .catch(error => reject(error)); // Se ocorrer algum erro, chama a função de callback reject com o erro
     });
   }
+
+
+  function loadNabar(){
+    fetch('/navbar')
+    .then(response => response.text())
+    .then(data => {
+        // Insira o conteúdo no elemento desejado
+        document.querySelector('.main-menu').innerHTML = data;
+    })
+    .catch(error => console.error('Erro ao carregar arquivo2.html', error));
+  }
+  
