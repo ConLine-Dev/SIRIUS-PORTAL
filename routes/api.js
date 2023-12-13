@@ -63,7 +63,7 @@ try {
 
 
 
-router.post('/RegisterCommission', async (req, res, next) => {
+router.get('/RegisterCommission', async (req, res, next) => {
   const {body} = req.body
 try {
   const result = await commission.RegisterCommission(body)
