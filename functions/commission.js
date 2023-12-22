@@ -1,7 +1,6 @@
 const {executeQuery} = require('../connect/mysql');
 const {headCargoQuery} = require('../connect/headCargo');
 const fs = require('fs');
-const { isNumberObject } = require('util/types');
 
 
 const commission = {
@@ -31,7 +30,7 @@ const commission = {
             return array.findIndex(i => i.IdPessoa === item.IdPessoa) === index;
           });
 
-          console.log(await this.criarReferencia())
+      
         return novoArray;
     },
     getByUser: async function(id) {
@@ -40,7 +39,7 @@ const commission = {
             SELECT * FROM vis_Comissao_vendedor_atualizada
             WHERE ID_VENDEDOR = ${id} AND SITUACAO_AGENCIAMENTO = 'AUDITADO';`;
 
-        const result = await headCargoQuery(`
+        let result = await headCargoQuery(`
             SELECT * FROM vis_Comissao_vendedor_atualizada AS c
             ${where} 
         `);
@@ -49,8 +48,15 @@ const commission = {
         JOIN collaborators ON collaborators.id = id_collaborators`)
 
 
+        const lastComission = await executeQuery(`SELECT * FROM commission_history WHERE id_seller = ${id} OR id_inside = ${id}`)
+
+
         for (let index = 0; index < result.length; index++) {
             const element = result[index];
+
+            commissions.find(objeto => objeto.id_headcargo == id && objeto.type == 1);
+
+
             if((element.ID_VENDEDOR == id && element.ID_INSIDE_SALES != id)){
                 const comissao = commissions.find(objeto => objeto.id_headcargo == id && objeto.type == 1);
                 element.percentage = comissao && comissao.percentage ? Number(comissao.percentage) : 'Não definida'
@@ -60,7 +66,7 @@ const commission = {
             }else if(element.ID_VENDEDOR == id && element.ID_INSIDE_SALES == id){
                 const comissao = commissions.filter(objeto => objeto.id_headcargo == id);
                 const countComissao = comissao.reduce((total, comissao) => total + comissao.percentage, 0);
-                
+            
                 element.percentage = Number(countComissao)
             }
 
@@ -71,35 +77,205 @@ const commission = {
             
         }
 
+        // Extrair todos os 'id_process' do array 'commissions'
+        const idProcessCommissions = lastComission.map(comissao => comissao.id_process);
+
+
+        // Filtrar o array 'result' para manter apenas os objetos cujo 'IdLogistica_House' não está presente em 'idProcessCommissions'
+        result = result.filter(element => !idProcessCommissions.includes(element.IdLogistica_House));
+
     
         return result;
     },
-    RegisterCommission: async function(body){
+    RegisterCommission: async function (body) {
         const reference = await this.criarReferencia();
-        console.log(reference);
-    },
+        const comission = await executeQuery(`INSERT INTO commission_reference (reference, date, user) VALUES ('${reference}', NOW(), ${body[0].userComission})`);
+        const idComission = comission.insertId;
 
-    criarReferencia: async function(){
-        const commissions = await executeQuery(`SELECT * FROM commission_reference`);
-        const NumberCommission = commissions.length + 1;
-        // Garante que a quantidade seja formatada com pelo menos 4 dígitos
-        const quantidadeFormatada = String(NumberCommission).padStart(4, '0');
+
+        
+        for (let index = 0; index < body.length; index++) {
+            const element = body[index];
+
+            await executeQuery(`INSERT INTO commission_history (reference, id_process, modal, id_seller, id_inside, effective, percentage, commission, create_date) 
+            VALUES (${idComission}, ${element.idProcess}, '${element.modal}', ${element.id_seller}, ${element.id_inside}, '${element.effective}', ${element.percentage}, '${element.commission}', NOW())`);
+        }
+
+
+        return true
+    
+    },
+    criarReferencia: async function () {
+        // Obtém a última referência criada
+        const lastReferenceResult = await executeQuery('SELECT * FROM commission_reference ORDER BY id DESC LIMIT 1');
+        const lastReference = lastReferenceResult.length > 0 ? lastReferenceResult[0].reference : null;
+    
+        // Extrai a quantidade formatada da última referência
+        const quantidadeFormatada = lastReference ? lastReference.split('CMS')[1].split('-')[0] : '0000';
+    
         const anoAtual = new Date().getFullYear();
         // Obtém os dois últimos dígitos do ano atual
         const doisUltimosDigitosAno = String(anoAtual).slice(-2);
-
+    
+        // Incrementa a quantidade formatada para a próxima referência
+        const proximaQuantidadeFormatada = String(Number(quantidadeFormatada) + 1).padStart(4, '0');
+    
         // Combina os elementos para formar a referência
-        const referencia = `CMS${quantidadeFormatada}-${doisUltimosDigitosAno}`;
+        const referencia = `CMS${proximaQuantidadeFormatada}-${doisUltimosDigitosAno}`;
+    
+        return referencia;
+    },
+    ComissionHistory: async function(){
+        let comission = await executeQuery(`SELECT 
+        cr.id AS commission_reference_id,
+        COUNT(cr.id) as quantidade,
+        MAX(cr.date) AS date,
+        MAX(cr.user) AS idHeadCargoUser,
+        MAX(c.name) AS userComission_name,
+        MAX(c.id) AS idUser,
+        SUM(ch.commission) AS total_commission_value
+    FROM 
+        commission_reference cr
+    JOIN 
+        commission_history ch ON cr.id = ch.reference
+    JOIN 
+        collaborators c ON cr.user = c.id_headcargo
+    GROUP BY 
+        cr.id
+    ORDER BY 
+        commission_reference_id desc`);
 
-        const ValidateReference = await executeQuery(`SELECT * FROM commission_reference WHERE reference = '${referencia}'`);
 
-        if (ValidateReference.length > 0) {
-            // Se a referência já existe, chama recursivamente para gerar uma nova referência
-            return this.criarReferencia();
-        } else {
-            // Se a referência não existe, retorna a referência gerada
-            return referencia;
+        comission = comission.map(element => {
+            return {
+                ...element,
+                total_commission_value: commission.formatCurrency(element.total_commission_value),
+                date: commission.formatDateBR(element.date)
+            };
+        });
+
+        return comission
+
+    },
+    ContentComissionHistory: async function(id){
+
+        let result = await executeQuery(`SELECT 
+        colab_inside.name AS inside_name,
+        colab_inside.family_name AS inside_family_name,
+        colab_seller.name AS seller_name,
+        colab_seller.family_name AS seller_family_name,
+		colab_commission.name AS comission_name,
+        colab_commission.family_name AS comission_family_name,
+        comm_ref.user as user_comission,
+        comm_ref.date as create_comission,
+        comm_ref.reference as reference,
+        commission_history.reference as reference_id,
+        commission_history.id as id_history,
+        commission_history.id_process,
+        commission_history.id_seller,
+        commission_history.id_inside,
+        commission_history.effective,
+        commission_history.percentage,
+        commission_history.commission,
+        commission_history.modal
+      FROM commission_history
+      LEFT JOIN collaborators colab_inside ON colab_inside.id_headcargo = commission_history.id_inside
+      LEFT JOIN collaborators colab_seller ON colab_seller.id_headcargo = commission_history.id_seller
+      LEFT JOIN commission_reference comm_ref ON comm_ref.id = commission_history.reference
+      LEFT JOIN collaborators colab_commission ON colab_commission.id_headcargo = comm_ref.user
+      WHERE commission_history.reference = ${id}`)
+
+
+        
+        // TEMP REFATORAR
+        let nameComission, table, valueComission;
+
+        table = result.map(element => {
+            
+            return {
+                ...element,
+                create_comission: commission.formatDateBR(element.create_comission),
+                commission: commission.formatCurrency(Number(element.commission)),
+                effective: commission.formatCurrency(Number(element.effective))
+            };
+        });
+        console.log(table)
+
+       
+
+        valueComission = await this.SumValuesComissions(result,'commission');
+        nameComission = await this.formatarNomeCompleto(`${result[0].comission_name} ${result[0].comission_family_name}`) 
+        const format = {
+            user_comission:result[0].user_comission,
+            nameComission: nameComission,
+            valueComission: valueComission,
+            dateComission: commission.formatDateBR(result[0].create_comission),
+            table:table,
+
         }
+
+        return format;
+        
+    },
+    SumValuesComissions: async function(array, colunm){
+        let total = 0 
+        for (let index = 0; index < array.length; index++) {
+            const element = array[index];
+
+            total += Number(element[colunm]);
+
+        }
+
+        return this.formatCurrency(total);
+    },
+    formatCurrency: function(value) {
+        return value.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+        });
+    },
+    formatDateBR: function (dataOriginal){
+        // Criar um objeto de data
+        const data = new Date(dataOriginal);
+    
+        // Extrair o dia, mês e ano em formato UTC
+        const dia = data.getUTCDate().toString().padStart(2, "0");
+        const mes = (data.getUTCMonth() + 1).toString().padStart(2, "0");
+        const ano = data.getUTCFullYear();
+        // Extrair a hora e os minutos em formato UTC
+        const hora = data.getUTCHours().toString().padStart(2, "0");
+        const minutos = data.getUTCMinutes().toString().padStart(2, "0");
+
+
+        // Criar a string formatada
+        return `${dia}/${mes}/${ano} ${hora}:${minutos}`;
+    },
+    formatarNomeCompleto: async function (nomeCompleto) {
+        if(nomeCompleto != null){
+        // Lista de prefixos que devem permanecer em minúsculas
+        const prefixos = ["de", "da", "do", "dos", "das"];
+    
+        // Divida o nome completo em palavras
+        const palavras = nomeCompleto.split(' ');
+    
+        // Formate o primeiro nome
+        let primeiroNome = palavras[0].charAt(0).toUpperCase() + palavras[0].slice(1).toLowerCase();
+    
+        // Formate o sobrenome
+        let sobrenome = palavras.slice(1).map(palavra => {
+            return prefixos.includes(palavra.toLowerCase())
+                ? palavra.toLowerCase()
+                : palavra.charAt(0).toUpperCase() + palavra.slice(1).toLowerCase();
+        }).join(' ');
+    
+        // Combine o primeiro nome e o sobrenome formatados
+        let nomeFormatado = `${primeiroNome} ${sobrenome}`;
+    
+        return nomeFormatado;
+        }else{
+            return 'não selecionado'
+        }
+        
     }
 }
 

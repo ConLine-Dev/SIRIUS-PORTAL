@@ -4,7 +4,6 @@ const path = require("path");
 const fs = require('fs');
 const multer = require('multer');
 
-
 // const {db} = require('../functions/dbExcel');
 const {commission} = require('../functions/commission');
 
@@ -18,11 +17,9 @@ router.post('/upload', upload.single('file'), async (req, res) => {
 
       res.status(200).json(resultados);
     } catch (error) {
-      console.error(error);
       res.status(500).send('Erro ao processar o arquivo XLSX.');
     }
 });
-
 
 router.post('/commissionByUser', async (req, res, next) => {
  const {UserId, type} = req.body
@@ -46,34 +43,48 @@ router.post('/listUser', async (req, res, next) => {
        res.status(404).json('error')   
    }
    
- });
+});
 
 router.post('/getValuesCommisionsByUser', async (req, res, next) => {
   const {UserId} = req.body
 try {
-  const result = await commission.getValuesCommisionsByUser(UserId)
-
+    const result = await commission.getValuesCommisionsByUser(UserId)
     res.status(200).json(result)
 } catch (error) {
-
     res.status(404).json('error')   
 }
 
 });
 
-
-
-router.get('/RegisterCommission', async (req, res, next) => {
+router.post('/RegisterCommission', async (req, res, next) => {
   const {body} = req.body
 try {
   const result = await commission.RegisterCommission(body)
     res.status(200).json(result)
 } catch (error) {
-  console.log(error)
     res.status(404).json('error')   
 }
 
 });
+
+router.post('/ComissionHistory', async (req, res, next) => {
+try {
+  const result = await commission.ComissionHistory()
+    res.status(200).json(result)
+} catch (error) {
+    res.status(404).json('error')   
+}
+});
+
+router.post('/ContentComissionHistory', async (req, res, next) => {
+  const {id} = req.body
+  try {
+    const result = await commission.ContentComissionHistory(id)
+      res.status(200).json(result)
+  } catch (error) {
+      res.status(404).json(error)   
+  }
+  });
  
 
 

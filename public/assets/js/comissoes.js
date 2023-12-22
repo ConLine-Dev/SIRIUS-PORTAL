@@ -1,37 +1,21 @@
 const tables = []
+let userSelected = null
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
     const ButtonSearchComissoes = document.querySelector('.btn_searchComissoes');
     ButtonSearchComissoes.addEventListener('click', handleSearchComissoes);
 
-    listComissionados();
-    getInfComissoes()
+    await listComissionados();
+    await getInfComissoes()
+    await ComissionHistory()
+
+
 });
 
-function adicionarLoader(seletor) {
+async function adicionarLoader(seletor) {
     // Selecione o elemento alvo (pode ser uma classe ou ID)
     var alvo = document.querySelector(seletor);
 
-
-    // Crie o elemento de loading
-    // var html = `<p class="card-text placeholder-glow">
-    // <span class="placeholder col-2"></span>
-    // <span class="placeholder col-2"></span>
-    // <span class="placeholder col-md-2"></span>
-    // <span class="placeholder col-md-2"></span>
-    // <span class="placeholder col-md-2"></span>
-    // <span class="placeholder col-md-2"></span>
-    // <span class="placeholder col-md-2"></span>
-    // <span class="placeholder col-md-2"></span>
-    // <span class="placeholder col-md-2"></span>
-    // <span class="placeholder col-md-2"></span>
-    // <span class="placeholder col-md-2"></span>
-    // <span class="placeholder col-md-2"></span>
-    // <span class="placeholder col-md-2"></span>
-    // <span class="placeholder col-md-2"></span>
-    // <span class="placeholder col-md-2"></span>
-    // <span class="placeholder col-md-2"></span>
-    // </p>`
 
     var html = `<div class="loading"> <img src="../assets/images/media/loader.svg" alt=""> </div>` 
 
@@ -48,9 +32,9 @@ function adicionarLoader(seletor) {
     return loader;
 }
 
-function removerLoader(loader) {
+async function removerLoader(loader) {
     // Obtenha o pai do loader e remova o loader
-    loader.parentNode.removeChild(loader);
+    loader.remove();
 }
 
 async function initializeDataTable() {
@@ -80,9 +64,10 @@ async function initializeDataTable() {
 async function handleSearchComissoes(e) {
     e.preventDefault();
 
-    const meuLoader = adicionarLoader('.bodyCardComissoes .cardLoader');
+    const meuLoader = await adicionarLoader('.bodyCardComissoes .cardLoader');
 
     const idUser = $('.js-example-templating').val();
+    userSelected = idUser;
     const valuesComissions = await Thefetch('/api/getValuesCommisionsByUser', 'POST', { body: JSON.stringify({ UserId: idUser}) }); 
 
     const tableCommissions = await Thefetch('/api/commissionByUser', 'POST', { body: JSON.stringify({ UserId: idUser}) });
@@ -95,7 +80,7 @@ async function handleSearchComissoes(e) {
 
     tableCommissions.forEach(dados => {
         const newDados = {
-            check: `<input class="form-check-input checkTableComissoes" value="${dados.commission}" checked="" type="checkbox" id="${dados.IdLogistica_House}">`,
+            check: `<input class="form-check-input checkTableComissoes" data-json='${JSON.stringify(dados)}' value="${dados.commission}" checked="" type="checkbox" id="${dados.IdLogistica_House}">`,
             open: ``,
             modal: `<img title="${dados.MODAL}" src="/assets/images/${getModalImage(dados.MODAL)}" style="width: 1.75rem;height: 1.75rem;">`,
             processo: dados.Numero_Processo,
@@ -118,8 +103,8 @@ async function handleSearchComissoes(e) {
     const check = document.querySelectorAll('.checkTableComissoes');
     for (let index = 0; index < check.length; index++) {
         const element = check[index];
-        element.addEventListener('change', function() {
-            getInfComissoes();
+        element.addEventListener('change', async function() {
+            await getInfComissoes();
         });
     }
 
@@ -134,8 +119,8 @@ async function handleSearchComissoes(e) {
         
     }
 
-    removerLoader(meuLoader);
-    getInfComissoes()
+    await removerLoader(meuLoader);
+    await getInfComissoes()
 
 
     document.querySelector('.btnGerarComissoes').classList.remove('disabled')
@@ -143,8 +128,79 @@ async function handleSearchComissoes(e) {
     const vendedorComission = valuesComissions.find(item => item.type == 1);
     const insideComission = valuesComissions.find(item => item.type == 2);
 
-    document.querySelector('.percentagemVededor').textContent = vendedorComission.percentage+' %'
-    document.querySelector('.percentagemInside').textContent = insideComission.percentage+' %'
+    document.querySelector('.percentagemVededor').textContent = vendedorComission?.percentage ? vendedorComission.percentage+' %' : 'Não configurada'
+    document.querySelector('.percentagemInside').textContent = insideComission?.percentage ? insideComission.percentage+' %' : 'Não configurada'
+
+}
+
+async function GenerateSearchComissoes(idUser) {
+  
+    const meuLoader = await adicionarLoader('.bodyCardComissoes .cardLoader');
+
+    const valuesComissions = await Thefetch('/api/getValuesCommisionsByUser', 'POST', { body: JSON.stringify({ UserId: idUser}) }); 
+
+    const tableCommissions = await Thefetch('/api/commissionByUser', 'POST', { body: JSON.stringify({ UserId: idUser}) });
+
+    if(!tables['GerenciamentoComissoes']){
+        tables['GerenciamentoComissoes'] = await initializeDataTable();
+    }
+    
+    tables['GerenciamentoComissoes'].clear();
+
+    tableCommissions.forEach(dados => {
+        const newDados = {
+            check: `<input class="form-check-input checkTableComissoes" data-json='${JSON.stringify(dados)}' value="${dados.commission}" checked="" type="checkbox" id="${dados.IdLogistica_House}">`,
+            open: ``,
+            modal: `<img title="${dados.MODAL}" src="/assets/images/${getModalImage(dados.MODAL)}" style="width: 1.75rem;height: 1.75rem;">`,
+            processo: dados.Numero_Processo,
+            abertura: formatDate(dados.Data_Auditado),
+            vendedor: createAvatarColumn(dados.ID_VENDEDOR, dados.VENDEDOR),
+            inside: createAvatarColumn(dados.ID_INSIDE_SALES, dados.INSIDE_SALES),
+            efetivo: formatCurrency(dados.VALOR_EFETIVO_TOTAL),
+            'porcentagem': dados.percentage+' %',
+            'comissao': formatCurrency(dados.commission)
+        };
+
+        const rowNode = tables['GerenciamentoComissoes'].row.add(Object.values(newDados)).node();
+        $(rowNode).find('td:eq(1)').addClass('dtr-control');
+    });
+
+    tables['GerenciamentoComissoes'].draw();
+   
+
+    // Manipula o clique no checkbox "checkTableComissoesAll"
+    const check = document.querySelectorAll('.checkTableComissoes');
+    for (let index = 0; index < check.length; index++) {
+        const element = check[index];
+        element.addEventListener('change', async function() {
+            await getInfComissoes();
+        });
+    }
+
+
+
+    const namesComissionados = document.querySelectorAll('.NameComissionado')
+
+    for (let index = 0; index < namesComissionados.length; index++) {
+        const element = namesComissionados[index];
+
+        element.textContent = $('.js-example-templating option:selected').text();
+        
+    }
+
+    await removerLoader(meuLoader);
+    await getInfComissoes()
+
+
+    document.querySelector('.btnGerarComissoes').classList.remove('disabled')
+
+    const vendedorComission = valuesComissions.find(item => item.type == 1);
+    const insideComission = valuesComissions.find(item => item.type == 2);
+
+    document.querySelector('.percentagemVededor').textContent = vendedorComission?.percentage ? vendedorComission.percentage+' %' : 'Não configurada'
+    document.querySelector('.percentagemInside').textContent = insideComission?.percentage ? insideComission.percentage+' %' : 'Não configurada'
+    
+ 
 
 }
 
@@ -249,7 +305,7 @@ function formatarNomeCompleto(nomeCompleto) {
     
 }
 
-function getInfComissoes(){
+async function getInfComissoes(){
     // Obtenha todos os elementos com a classe 'checkTableComissoes'
     const checkboxes = document.querySelectorAll('.checkTableComissoes');
 
@@ -281,7 +337,7 @@ function getInfComissoes(){
 
 // Manipula o clique no checkbox "checkTableComissoesAll"
 const checkAll = document.querySelector('.checkTableComissoesAll');
-checkAll.addEventListener('change', function() {
+checkAll.addEventListener('change', async function() {
     // Obtém o estado (marcado ou desmarcado) do checkbox "checkTableComissoesAll"
     var isChecked = this.checked;
 
@@ -291,7 +347,7 @@ checkAll.addEventListener('change', function() {
     checkbox.checked = isChecked;
     });
 
-    getInfComissoes();
+    await getInfComissoes();
 });
 
 
@@ -306,20 +362,225 @@ buttonGenerate.addEventListener('click', async function(e) {
     const process = []
     const listProcess = document.querySelectorAll('.checkTableComissoes')
 
+  
     for (let index = 0; index < listProcess.length; index++) {
         const element = listProcess[index];
-        process.push(Number(element.getAttribute('id')))
+        let data = element.getAttribute('data-json');
+        data = JSON.parse(data);
+
+        if (element.checked) {
+            process.push({
+                idProcess:Number(element.getAttribute('id')),
+                id_seller:data.ID_VENDEDOR,
+                id_inside:data.ID_INSIDE_SALES,
+                effective:data.VALOR_EFETIVO_TOTAL,
+                percentage:data.percentage,
+                commission:data.commission,
+                modal:data.MODAL,
+                userComission:userSelected
+            })
+        }
         
         
     }
 
 
    await Thefetch('/api/RegisterCommission', 'POST', { body: JSON.stringify({ body: process}) });
+
+   if(userSelected != null){
+   await GenerateSearchComissoes(userSelected)
+   }
+
+
    buttonGenerate.textContent = text;
    buttonGenerate.classList.remove('disabled')
+
+   ComissionHistory()
+
+
+   
+   
 })
 
 
+
+async function ComissionHistory(){
+    const meuLoader = await adicionarLoader('.bodyHistorico');
+
+    const result = await Thefetch('/api/ComissionHistory', 'POST');
+
+    const bodyHistorico = document.querySelector('.bodyHistorico');
+    bodyHistorico.innerHTML = '';
+    for (let index = 0; index < result.length; index++) {
+        const element = result[index];
+
+
+        const html = `<li class="list-group-item">
+        <a data-idComission="${element.commission_reference_id}" class="modal-effect d-flex align-items-center justify-content-between  flex-wrap" data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo8">
+          <div class="d-flex align-items-center gap-2">
+            <div>
+              <span class="avatar  p-1 bg-light">
+                <img src="https://cdn.conlinebr.com.br/colaboradores/${element.idHeadCargoUser}" alt="">
+              </span>
+            </div>
+            <div>
+              <span class="d-block fw-semibold">${element.userComission_name}</span>
+              <span class="d-block text-muted fs-12 fw-normal">Qtd: ${(element.quantidade).toString().padStart(4, '0')}</span>
+            </div>
+          </div>
+          <div>
+            <span class="fs-12 text-muted d-block" style="text-align: right;">${element.total_commission_value}</span>
+            <span class="badge bg-info-transparent d-block">${element.date}</span>
+        
+          </div>
+        </a>
+      </li>`;
+
+      bodyHistorico.innerHTML += html
+
+        
+    }
+
+
+    await removerLoader(meuLoader);
+
+
+    document.querySelectorAll(".modal-effect").forEach(e => {
+        e.addEventListener('click', async function (e) {
+            e.preventDefault();
+            let effect = this.getAttribute('data-bs-effect');
+            let id = this.getAttribute('data-idComission');
+            document.querySelector("#modaldemo8").classList.add(effect);
+
+            await loadingContentComission(id)
+
+            
+        
+        });
+    })
+}
+
+
+async function loadingContentComission(id){
+    const meuLoader = await adicionarLoader('#modaldemo8 .modal-content');
+
+
+  const modalBody = document.querySelector('#modaldemo8 .modal-content .modalBody');
+
+  const comissionados = await Thefetch('/api/ContentComissionHistory', 'POST', { body: JSON.stringify({id:id})})
+
+    const tableList = comissionados.table
+
+
+
+const body = `
+<div class="card custom-card">
+  <div class="card-body">
+    <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap">
+      <div>
+        <span class="d-block text-muted fs-12">Comissionado</span>
+        <div class="d-flex align-items-center">
+          <div class="me-2 lh-1">
+            <span class="avatar avatar-xs avatar-rounded">
+              <img src="https://cdn.conlinebr.com.br/colaboradores/${comissionados.user_comission}" alt="">
+            </span>
+          </div>
+          <span class="d-block fs-14 fw-semibold">${comissionados.nameComission}</span>
+        </div>
+      </div>
+      <div>
+        <span class="d-block text-muted fs-12">Data de criação</span>
+        <span class="d-block fs-14 fw-semibold">${comissionados.dateComission}</span>
+      </div>
+      <div>
+        <span class="d-block text-muted fs-12">Data da aprovação</span>
+        <span class="d-block fs-14 fw-semibold">${comissionados.dateComission}</span>
+      </div>
+      <div>
+        <span class="d-block text-muted fs-12">Data do pagamento</span>
+        <span class="d-block fs-14 fw-semibold">${comissionados.dateComission}</span>
+      </div>
+      <div>
+        <span class="d-block text-muted fs-12">Valor</span>
+        <span class="d-block fs-14 fw-semibold">${comissionados.valueComission}</span>
+      </div>
+    </div>
+    <hr>
+    <table id="table-comissoes_info" class="table table-bordered text-nowrap w-100 dataTable no-footer collapsed">
+                        <thead>
+                          <tr>
+                            <th scope="col" style="width: 10px;">Modal</th>
+                            <th scope="col">Processo</th>
+                            <th scope="col">Auditado</th>
+                            <th scope="col">Vendedor</th>
+                            <th scope="col">Inside</th>
+                            <th scope="col">Efetivo</th>
+                            <th scope="col">%</th>
+                            <th scope="col">Comissão</th>
+                          </tr>
+                        </thead>
+                        
+                        <tbody>
+                 
+                        </tbody>
+    </table>
+  </div>
+
+</div>
+`;
+
+
+
+
+modalBody.innerHTML = body;
+
+
+    tables['tableComissoes_info'] = $('#table-comissoes_info').DataTable({
+        order: [],
+        
+        columnDefs: [
+            { "orderable": false, "targets": [0, 1, 2] },
+        ],
+        paging: false,
+        scrollX: true,
+        info: false,
+        language: {
+            searchPlaceholder: 'Pesquisar...',
+            sSearch: '',
+            
+        },
+    });
+
+
+
+tables['tableComissoes_info'].clear();
+
+for (let index = 0; index < tableList.length; index++) {
+    const dados = tableList[index];
+    const newDados = {
+        modal: `<img title="${dados.modal}" src="/assets/images/${getModalImage(dados.modal)}" style="width: 1.75rem;height: 1.75rem;">`,
+        processo: dados.create_comission,
+        abertura: formatDate(dados.create_comission),
+        vendedor: createAvatarColumn(dados.id_seller, `${dados.seller_name} ${dados.seller_family_name}`),
+        inside: createAvatarColumn(dados.id_inside, `${dados.inside_name} ${dados.inside_family_name}`),
+        efetivo: formatCurrency(dados.effective),
+        'porcentagem': dados.percentage+' %',
+        'comissao': formatCurrency(dados.commission)
+    };
+
+    const rowNode = tables['tableComissoes_info'].row.add(Object.values(newDados)).node();
+}
+
+
+
+// tables['tableComissoes_info'].draw();
+setTimeout(async () => {
+    tables['tableComissoes_info'].columns.adjust().draw();
+    await removerLoader(meuLoader);
+}, 300);
+
+
+}
 
 
 
