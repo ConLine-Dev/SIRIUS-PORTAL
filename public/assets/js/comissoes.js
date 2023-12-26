@@ -371,6 +371,8 @@ buttonGenerate.addEventListener('click', async function(e) {
         if (element.checked) {
             process.push({
                 idProcess:Number(element.getAttribute('id')),
+                audited:data.Data_Auditado,
+                reference_process: data.Numero_Processo,
                 id_seller:data.ID_VENDEDOR,
                 id_inside:data.ID_INSIDE_SALES,
                 effective:data.VALOR_EFETIVO_TOTAL,
@@ -395,11 +397,11 @@ buttonGenerate.addEventListener('click', async function(e) {
    buttonGenerate.textContent = text;
    buttonGenerate.classList.remove('disabled')
 
-   ComissionHistory()
+   await ComissionHistory()
 
 
    
-   
+   alertToast('Atenção', 'Novo registro de comissão gerado e enviado para aprovação, você deve verificar os históricos.');
 })
 
 
@@ -411,11 +413,11 @@ async function ComissionHistory(){
 
     const bodyHistorico = document.querySelector('.bodyHistorico');
     bodyHistorico.innerHTML = '';
+    let html = '';
     for (let index = 0; index < result.length; index++) {
         const element = result[index];
 
-
-        const html = `<li class="list-group-item">
+        html += `<li class="list-group-item">
         <a data-idComission="${element.commission_reference_id}" class="modal-effect d-flex align-items-center justify-content-between  flex-wrap" data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo8">
           <div class="d-flex align-items-center gap-2">
             <div>
@@ -436,14 +438,12 @@ async function ComissionHistory(){
         </a>
       </li>`;
 
-      bodyHistorico.innerHTML += html
-
         
     }
 
+    bodyHistorico.innerHTML += html
 
     await removerLoader(meuLoader);
-
 
     document.querySelectorAll(".modal-effect").forEach(e => {
         e.addEventListener('click', async function (e) {
@@ -451,7 +451,7 @@ async function ComissionHistory(){
             let effect = this.getAttribute('data-bs-effect');
             let id = this.getAttribute('data-idComission');
             document.querySelector("#modaldemo8").classList.add(effect);
-
+    
             await loadingContentComission(id)
 
             
@@ -468,6 +468,8 @@ async function loadingContentComission(id){
   const modalBody = document.querySelector('#modaldemo8 .modal-content .modalBody');
 
   const comissionados = await Thefetch('/api/ContentComissionHistory', 'POST', { body: JSON.stringify({id:id})})
+  console.log(comissionados)
+
 
     const tableList = comissionados.table
 
@@ -493,20 +495,19 @@ const body = `
         <span class="d-block fs-14 fw-semibold">${comissionados.dateComission}</span>
       </div>
       <div>
-        <span class="d-block text-muted fs-12">Data da aprovação</span>
-        <span class="d-block fs-14 fw-semibold">${comissionados.dateComission}</span>
+      <span class="d-block text-muted fs-12">Valor</span>
+      <span class="d-block fs-14 fw-semibold">${comissionados.valueComission}</span>
+    </div>
+      <div>
+        <span class="d-block text-muted fs-12">Status</span>
+        <span class="d-block fs-15 fw-semibold">${comissionados.status_comission == 0 ? '<span class="badge bg-secondary"> Pendente </span>' : comissionados.status_comission == 1 ? '<span class="badge bg-warning"> Aprovado <br>'+comissionados.approved_date+'</span>' : comissionados.status_comission == 2 ? '<span class="badge bg-danger"> Reprovado <br>'+comissionados.declined_date+'</span>' : comissionados.status_comission == 3 ? '<span class="badge bg-warning"> Aprovado <br>'+comissionados.payment_date+'</span>' : '' }</span>
       </div>
       <div>
-        <span class="d-block text-muted fs-12">Data do pagamento</span>
-        <span class="d-block fs-14 fw-semibold">${comissionados.dateComission}</span>
-      </div>
-      <div>
-        <span class="d-block text-muted fs-12">Valor</span>
-        <span class="d-block fs-14 fw-semibold">${comissionados.valueComission}</span>
-      </div>
+      <span class="d-block fs-14 fw-semibold"><div class="prism-toggle"> <button class="btn btn-sm btn-primary-light">Detalhes<i class="ri-book-mark-fill ms-2 d-inline-block align-middle"></i></button> </div></span>
+    </div>
     </div>
     <hr>
-    <table id="table-comissoes_info" class="table table-bordered text-nowrap w-100 dataTable no-footer collapsed">
+    <table id="table-comissoes_info" class="table table-bordered text-nowrap w-100 dataTable no-footer collapsed" style="text-align: left;">
                         <thead>
                           <tr>
                             <th scope="col" style="width: 10px;">Modal</th>
@@ -533,11 +534,9 @@ const body = `
 
 
 modalBody.innerHTML = body;
-
-
-    tables['tableComissoes_info'] = $('#table-comissoes_info').DataTable({
+    console.log($('table#table-comissoes_info#table-comissoes_info'))
+    tables['tableComissoes_info'] = $('table#table-comissoes_info').DataTable({
         order: [],
-        
         columnDefs: [
             { "orderable": false, "targets": [0, 1, 2] },
         ],
@@ -552,15 +551,14 @@ modalBody.innerHTML = body;
     });
 
 
-
 tables['tableComissoes_info'].clear();
 
 for (let index = 0; index < tableList.length; index++) {
     const dados = tableList[index];
     const newDados = {
         modal: `<img title="${dados.modal}" src="/assets/images/${getModalImage(dados.modal)}" style="width: 1.75rem;height: 1.75rem;">`,
-        processo: dados.create_comission,
-        abertura: formatDate(dados.create_comission),
+        processo: dados.reference_process,
+        auditado: dados.audited,
         vendedor: createAvatarColumn(dados.id_seller, `${dados.seller_name} ${dados.seller_family_name}`),
         inside: createAvatarColumn(dados.id_inside, `${dados.inside_name} ${dados.inside_family_name}`),
         efetivo: formatCurrency(dados.effective),
@@ -581,6 +579,51 @@ setTimeout(async () => {
 
 
 }
+
+
+
+
+
+const Alltoasts = [];
+
+function alertToast(titulo, mensagem) {
+    // Gera uma classe única usando um timestamp
+    const uniqueClass = 'toast-' + new Date().getTime();
+
+    // Cria o elemento do toast com a classe única
+    const toastElement = document.createElement('div');
+    toastElement.className = `toast ${uniqueClass} colored-toast bg-success-transparent fade hide`;
+    toastElement.setAttribute('role', 'alert');
+    toastElement.setAttribute('aria-live', 'assertive');
+    toastElement.setAttribute('aria-atomic', 'true');
+
+    const toastInnerHtml = `
+        <div class="toast-header bg-success text-fixed-white">
+     
+            <strong class="me-auto title">${titulo}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">${mensagem}</div>
+    `;
+
+    toastElement.innerHTML = toastInnerHtml;
+
+    // Adiciona o elemento do toast ao contêiner
+    const toastContainer = document.querySelector('.toast-container');
+    toastContainer.appendChild(toastElement);
+
+    // Cria e armazena o objeto Toast do Bootstrap no array
+    const toastInstance = new bootstrap.Toast(toastElement);
+    Alltoasts.push(toastInstance);
+
+    // Exibe o objeto Toast
+    toastInstance.show();
+}
+
+
+
+
+
 
 
 

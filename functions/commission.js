@@ -92,13 +92,19 @@ const commission = {
         const comission = await executeQuery(`INSERT INTO commission_reference (reference, date, user) VALUES ('${reference}', NOW(), ${body[0].userComission})`);
         const idComission = comission.insertId;
 
-
+        // Criar uma nova instância do objeto Date para representar a data e hora atual
+        const dataAtual = new Date();
+        // Ajustar o fuso horário para -3 horas
+        dataAtual.setHours(dataAtual.getHours() - 3);
+        // Obter uma string no formato ISO (YYYY-MM-DDTHH:mm:ss.sssZ)
+        const dataFormatada = dataAtual.toISOString().slice(0, 19).replace('T', ' ');
         
         for (let index = 0; index < body.length; index++) {
             const element = body[index];
-
-            await executeQuery(`INSERT INTO commission_history (reference, id_process, modal, id_seller, id_inside, effective, percentage, commission, create_date) 
-            VALUES (${idComission}, ${element.idProcess}, '${element.modal}', ${element.id_seller}, ${element.id_inside}, '${element.effective}', ${element.percentage}, '${element.commission}', NOW())`);
+            let audited_date = new Date(element.audited);
+            audited_date = audited_date.toISOString().slice(0, 19).replace('T', ' ');
+            await executeQuery(`INSERT INTO commission_history (reference, id_process,reference_process, modal, id_seller, id_inside, effective, percentage, commission, create_date, audited) 
+            VALUES (${idComission}, ${element.idProcess},'${element.reference_process}', '${element.modal}', ${element.id_seller}, ${element.id_inside}, '${element.effective}', ${element.percentage}, '${element.commission}', '${dataFormatada}', '${audited_date}')`);
         }
 
 
@@ -167,10 +173,18 @@ const commission = {
 		colab_commission.name AS comission_name,
         colab_commission.family_name AS comission_family_name,
         comm_ref.user as user_comission,
+        comm_ref.status as status_comission,
         comm_ref.date as create_comission,
+        comm_ref.approved_date as approved_date,
+        comm_ref.declined_date as declined_date,
+        comm_ref.payment_date as payment_date,
         comm_ref.reference as reference,
         commission_history.reference as reference_id,
+		commission_history.status as status_process,
+		commission_history.date_status as date_status,
+        commission_history.audited as audited,
         commission_history.id as id_history,
+        commission_history.reference_process as reference_process,
         commission_history.id_process,
         commission_history.id_seller,
         commission_history.id_inside,
@@ -194,14 +208,15 @@ const commission = {
             
             return {
                 ...element,
+                audited: commission.formatDateBRUTC(element.audited),
                 create_comission: commission.formatDateBR(element.create_comission),
                 commission: commission.formatCurrency(Number(element.commission)),
                 effective: commission.formatCurrency(Number(element.effective))
             };
         });
-        console.log(table)
+        // console.log(table)
 
-       
+
 
         valueComission = await this.SumValuesComissions(result,'commission');
         nameComission = await this.formatarNomeCompleto(`${result[0].comission_name} ${result[0].comission_family_name}`) 
@@ -209,10 +224,16 @@ const commission = {
             user_comission:result[0].user_comission,
             nameComission: nameComission,
             valueComission: valueComission,
+            status_comission: result[0].status_comission,
+            approved_date:result[0].approved_date != '' && result[0].approved_date != null ? commission.formatDateBR(result[0].approved_date) : '',
+            declined_date:result[0].declined_date != '' && result[0].declined_date != null ? commission.formatDateBR(result[0].declined_date) : '',
+            payment_date:result[0].payment_date != '' && result[0].payment_date != null ? commission.formatDateBR(result[0].payment_date) : '',
             dateComission: commission.formatDateBR(result[0].create_comission),
             table:table,
 
         }
+
+
 
         return format;
         
@@ -234,7 +255,7 @@ const commission = {
             currency: 'BRL',
         });
     },
-    formatDateBR: function (dataOriginal){
+    formatDateBRUTC: function (dataOriginal){
         // Criar um objeto de data
         const data = new Date(dataOriginal);
     
@@ -249,6 +270,25 @@ const commission = {
 
         // Criar a string formatada
         return `${dia}/${mes}/${ano} ${hora}:${minutos}`;
+    },
+    formatDateBR: function (dataOriginal){
+    // Criar um objeto de data
+    const data = new Date(dataOriginal);
+
+    // Ajustar o fuso horário para -3 horas
+    data.setHours(data.getHours() - 3);
+
+    // Extrair o dia, mês e ano em formato local
+    const dia = data.getDate().toString().padStart(2, "0");
+    const mes = (data.getMonth() + 1).toString().padStart(2, "0");
+    const ano = data.getFullYear();
+    
+    // Extrair a hora e os minutos em formato local
+    const hora = data.getHours().toString().padStart(2, "0");
+    const minutos = data.getMinutes().toString().padStart(2, "0");
+
+    // Criar a string formatada
+    return `${dia}/${mes}/${ano} ${hora}:${minutos}`;
     },
     formatarNomeCompleto: async function (nomeCompleto) {
         if(nomeCompleto != null){

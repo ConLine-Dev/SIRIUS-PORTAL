@@ -82,6 +82,7 @@ router.post('/ContentComissionHistory', async (req, res, next) => {
     const result = await commission.ContentComissionHistory(id)
       res.status(200).json(result)
   } catch (error) {
+    console.log(error)
       res.status(404).json(error)   
   }
   });
