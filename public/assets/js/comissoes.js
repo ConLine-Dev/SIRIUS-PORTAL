@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', async function () {
     await getInfComissoes()
     await ComissionHistory()
 
+    const loader = document.getElementById("loader");
+    loader.classList.add("d-none")
+
 
 });
 
@@ -432,7 +435,7 @@ async function ComissionHistory(){
           </div>
           <div>
             <span class="fs-12 text-muted d-block" style="text-align: right;">${element.total_commission_value}</span>
-            <span class="badge bg-info-transparent d-block">${element.date}</span>
+            <span class="badge bg-secondary-transparent d-block">${element.date}</span>
         
           </div>
         </a>
@@ -503,7 +506,7 @@ const body = `
         <span class="d-block fs-15 fw-semibold">${comissionados.status_comission == 0 ? '<span class="badge bg-secondary"> Pendente </span>' : comissionados.status_comission == 1 ? '<span class="badge bg-warning"> Aprovado <br>'+comissionados.approved_date+'</span>' : comissionados.status_comission == 2 ? '<span class="badge bg-danger"> Reprovado <br>'+comissionados.declined_date+'</span>' : comissionados.status_comission == 3 ? '<span class="badge bg-warning"> Aprovado <br>'+comissionados.payment_date+'</span>' : '' }</span>
       </div>
       <div>
-      <span class="d-block fs-14 fw-semibold"><div class="prism-toggle"> <button class="btn btn-sm btn-primary-light">Detalhes<i class="ri-book-mark-fill ms-2 d-inline-block align-middle"></i></button> </div></span>
+      <span class="d-block fs-14 fw-semibold"><div class="prism-toggle"> <button class="btn btn-sm btn-primary">Detalhes<i class="ri-book-mark-fill ms-2 d-inline-block align-middle"></i></button> </div></span>
     </div>
     </div>
     <hr>

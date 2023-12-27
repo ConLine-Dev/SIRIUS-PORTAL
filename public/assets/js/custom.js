@@ -1,5 +1,5 @@
 (function () {
-  "use strict";
+
 
   /* page loader */
   
@@ -8,7 +8,9 @@
     loader.classList.add("d-none")
   }
 
-  window.addEventListener("load", hideLoader);
+  
+
+  // window.addEventListener("DOMContentLoaded", hideLoader);
   /* page loader */
 
   /* tooltip */

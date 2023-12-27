@@ -3,7 +3,7 @@
 <head >
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sirius - Comissões</title>
+    <title>Sirius - Parceiros</title>
     <link rel="icon" href="../assets/images/brand-logos/favicon.ico" type="image/x-icon">
 
     <link id="style" href="../assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -30,6 +30,8 @@
     <link rel="stylesheet" href="../assets/css/select2.min.css">
    
     <script src="../assets/js/main.js"></script>
+
+
 
 </head>
 <body>
@@ -478,19 +480,19 @@
                 <!-- End::header-link|dropdown-toggle -->
                 <ul class="main-header-dropdown dropdown-menu pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end" aria-labelledby="mainHeaderProfile">
                   <li>
-                    <a class="dropdown-item d-flex" href="profile.html">
+                    <a class="dropdown-item d-flex" href="#">
                       <i class="ti ti-user-circle fs-18 me-2 op-7"></i>Perfil </a>
                   </li>
                   <li>
-                    <a class="dropdown-item d-flex" href="mail-settings.html">
+                    <a class="dropdown-item d-flex" href="#">
                       <i class="ti ti-adjustments-horizontal fs-18 me-2 op-7"></i>Configurações </a>
                   </li>
                   <li>
-                    <a class="dropdown-item d-flex" href="chat.html">
+                    <a class="dropdown-item d-flex" href="#">
                       <i class="ti ti-headset fs-18 me-2 op-7"></i>Suporte </a>
                   </li>
                   <li>
-                    <a class="dropdown-item d-flex" href="sign-in-cover.html">
+                    <a class="dropdown-item d-flex" href="/login">
                       <i class="ti ti-logout fs-18 me-2 op-7"></i>Deslogar </a>
                   </li>
                 </ul>
@@ -527,7 +529,7 @@
           <!-- End::main-sidebar-header -->
           <!-- Start::main-sidebar -->
           <div class="main-sidebar" id="sidebar-scroll" data-simplebar="init">
-            <div class="simplebar-wrapper" style="margin: -8px 0px -80px;">
+            <div class="simplebar-wrapper" style="margin: 0px 0px -80px;">
               <div class="simplebar-height-auto-observer-wrapper">
                 <div class="simplebar-height-auto-observer"></div>
               </div>
@@ -543,57 +545,22 @@
                           </svg>
                         </div>
                         <ul class="main-menu" style="margin-left: 0px; margin-right: 0px;">
-                          <!-- Start::slide__category -->
-                          <li class="slide__category">
-                            <span class="category-name">Main</span>
-                          </li>
-                          <!-- End::slide__category -->
-                          <!-- Start::slide -->
                        
-                  
-                     
                           <!-- Start::slide -->
-                          <li class="slide ">
-                            <a href="parceiro" class="side-menu__item">
-                              <i class="bx bx-table side-menu__icon"></i>
-                              <span class="side-menu__label">Comissões <span class="badge bg-danger-transparent ms-2">Hot</span>
-                              </span>
+                          <li class="slide has-sub active"> 
+                            <a href="#" class="side-menu__item active"> 
+                               <i class="bx bx-home side-menu__icon"></i> 
+                               <span class="side-menu__label" style="margin-right: 14px;">Comissões</span> 
+                               <i class="fe fe-chevron-down side-menu__angle"></i> 
                             </a>
-                          </li>
-
-                          <li class="slide ">
-                            <a href="/comissoes" class="side-menu__item active">
-                              <i class="bx bx-table side-menu__icon"></i>
-                              <span class="side-menu__label">Histórico de Comissões </span>
-                            </a>
-                          </li>
-                     
-                    
-                    
-                    
-                          <!-- End::slide -->
-                          <!-- Start::slide -->
-                          <li class="slide has-sub">
-                            <a href="javascript:void(0);" class="side-menu__item">
-                              <i class="bx bx-bar-chart-square side-menu__icon"></i>
-                              <span class="side-menu__label">Menu 2</span>
-                              <i class="fe fe-chevron-right side-menu__angle"></i>
-                            </a>
-                            <ul class="slide-menu child1" data-popper-placement="bottom" style="position: relative; left: 0px; top: 0px; margin: 0px; transform: translate(120px, 1009px);">
-                          
-                              <li class="slide has-sub">
-                                <a href="javascript:void(0);" class="side-menu__item">Sub menu 1 <i class="fe fe-chevron-right side-menu__angle"></i>
-                                </a>
-                                <ul class="slide-menu child2">
-                                  <li class="slide">
-                                    <a href="apex-line-charts.html" class="side-menu__item">Sub menu 2</a>
-                                  </li>
-                                 
-                                </ul>
-                              </li>
+                            <ul class="slide-menu child1 active" style="position: relative; left: 0px; top: 0px; margin-right: 0px; margin-left: 0px; display: none; box-sizing: border-box; transform: translate(135px, 108px);" data-popper-placement="bottom" data-popper-escaped="">
+                               <li class="slide side-menu__label1"> <a>Comissões</a> </li>
+                               <li class="slide"> <a href="/parceiro" class="side-menu__item">Gerenciamento</a> </li>
+                               <li class="slide"> <a href="/comissoes" class="side-menu__item">Histórico</a> </li>
                             </ul>
-                          </li>
-                    
+                         </li>
+
+
                          
               
                         </ul>
@@ -622,7 +589,7 @@
         <!-- End::app-sidebar -->
         <!-- Start::app-content -->
         <div class="main-content app-content">
-          <div class="container-fluid">
+          <div class="container-lg">
             <!-- Page Header -->
             <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
               <h1 class="page-title fw-semibold fs-18 mb-0">Comissões</h1>
@@ -646,38 +613,402 @@
             <!-- Page Header Close -->
             <!-- Start::row-1 -->
             <div class="row">
-              <div class="col-md-12">
-                <div class="card custom-card bodyCardComissoes">
-                  <div class="card-header justify-content-between">
-                    <div class="card-title">Histórico de Comissões </div>
-                    <div class="d-flex flex-wrap gap-2">
-                 
-                 
-                  
+              <div class="col-xxl-3 col-xl-4">
+                <div class="card custom-card products-navigation-card">
+                  <div class="card-body p-0">
+                    <div class="px-2 py-4 px-sm-4 border-bottom">
+                      <h6 class="fw-semibold mb-0">Modais</h6>
+                      <div class="px-2 py-3 pb-0">
+                        <div class="form-check mb-2">
+                          <input class="form-check-input me-2" type="checkbox" value="" id="c-1" checked="">
+                          <label class="form-check-label" for="c-1"> Imporação Marítima</label>
+                          <span class="badge bg-light text-default fw-500 float-end">21</span>
+                        </div>
+                        <div class="form-check mb-2">
+                          <input class="form-check-input me-2" type="checkbox" value="" id="c-2">
+                          <label class="form-check-label" for="c-2"> Importação Aérea </label>
+                          <span class="badge bg-light text-default fw-500 float-end">21</span>
+                        </div>
+                        <div class="form-check mb-2">
+                          <input class="form-check-input me-2" type="checkbox" value="" id="c-3" checked="">
+                          <label class="form-check-label" for="c-3"> Importação Rodoviaria </label>
+                          <span class="badge bg-light text-default fw-500 float-end">21</span>
+                        </div>
+                        <div class="form-check mb-2">
+                          <input class="form-check-input me-2" type="checkbox" value="" id="c-4" checked="">
+                          <label class="form-check-label" for="c-4"> Importação Rodoviaria </label>
+                          <span class="badge bg-light text-default fw-500 float-end">3,453</span>
+                        </div>
+                        <div class="form-check mb-2">
+                          <input class="form-check-input me-2" type="checkbox" value="" id="c-1" checked="">
+                          <label class="form-check-label" for="c-1"> Exportação Marítima</label>
+                          <span class="badge bg-light text-default fw-500 float-end">21</span>
+                        </div>
+                        <div class="form-check mb-2">
+                          <input class="form-check-input me-2" type="checkbox" value="" id="c-2">
+                          <label class="form-check-label" for="c-2"> Importação Aérea </label>
+                          <span class="badge bg-light text-default fw-500 float-end">21</span>
+                        </div>
+                        <div class="form-check mb-2">
+                          <input class="form-check-input me-2" type="checkbox" value="" id="c-3" checked="">
+                          <label class="form-check-label" for="c-3"> Importação Rodoviaria </label>
+                          <span class="badge bg-light text-default fw-500 float-end">21</span>
+                        </div>
+                        <div class="form-check mb-2">
+                          <input class="form-check-input me-2" type="checkbox" value="" id="c-4" checked="">
+                          <label class="form-check-label" for="c-4"> Importação Rodoviaria </label>
+                          <span class="badge bg-light text-default fw-500 float-end">3,453</span>
+                        </div>
+                        
+                      </div>
                     </div>
-                  </div>
-                  <div class="card-body">
-        
-                      <table id="table-comissoes" class="table table-bordered text-nowrap w-100 dataTable no-footer collapsed">
-                        <thead>
-                          <tr>
-                            <th scope="col">Referência</th>
-                            <th scope="col">Comissionado</th>
-                            <th scope="col">Data</th>
-                            <th scope="col">Valor</th>
-                            <th scope="col">Status</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                      
-                        </tbody>
-                      </table>
-                 
+                    <div class="px-2 py-4 px-sm-4 border-bottom">
+                      <h6 class="fw-semibold mb-0">Modais</h6>
+                      <div class="px-2 py-3 pb-0">
+                        <div class="form-check mb-2">
+                          <input class="form-check-input me-2" type="checkbox" value="" id="c-1" checked="">
+                          <label class="form-check-label" for="c-1"> Imporação Marítima</label>
+                          <span class="badge bg-light text-default fw-500 float-end">21</span>
+                        </div>
+                        <div class="form-check mb-2">
+                          <input class="form-check-input me-2" type="checkbox" value="" id="c-2">
+                          <label class="form-check-label" for="c-2"> Importação Aérea </label>
+                          <span class="badge bg-light text-default fw-500 float-end">21</span>
+                        </div>
+                        <div class="form-check mb-2">
+                          <input class="form-check-input me-2" type="checkbox" value="" id="c-3" checked="">
+                          <label class="form-check-label" for="c-3"> Importação Rodoviaria </label>
+                          <span class="badge bg-light text-default fw-500 float-end">21</span>
+                        </div>
+                        <div class="form-check mb-2">
+                          <input class="form-check-input me-2" type="checkbox" value="" id="c-4" checked="">
+                          <label class="form-check-label" for="c-4"> Importação Rodoviaria </label>
+                          <span class="badge bg-light text-default fw-500 float-end">3,453</span>
+                        </div>
+                        <div class="form-check mb-2">
+                          <input class="form-check-input me-2" type="checkbox" value="" id="c-1" checked="">
+                          <label class="form-check-label" for="c-1"> Exportação Marítima</label>
+                          <span class="badge bg-light text-default fw-500 float-end">21</span>
+                        </div>
+                        <div class="form-check mb-2">
+                          <input class="form-check-input me-2" type="checkbox" value="" id="c-2">
+                          <label class="form-check-label" for="c-2"> Importação Aérea </label>
+                          <span class="badge bg-light text-default fw-500 float-end">21</span>
+                        </div>
+                        <div class="form-check mb-2">
+                          <input class="form-check-input me-2" type="checkbox" value="" id="c-3" checked="">
+                          <label class="form-check-label" for="c-3"> Importação Rodoviaria </label>
+                          <span class="badge bg-light text-default fw-500 float-end">21</span>
+                        </div>
+                        <div class="form-check mb-2">
+                          <input class="form-check-input me-2" type="checkbox" value="" id="c-4" checked="">
+                          <label class="form-check-label" for="c-4"> Importação Rodoviaria </label>
+                          <span class="badge bg-light text-default fw-500 float-end">3,453</span>
+                        </div>
+                        
+                      </div>
+                    </div>
+                    <div class="px-2 py-4 px-sm-4 border-bottom">
+                      <h6 class="fw-semibold mb-0">Modais</h6>
+                      <div class="px-2 py-3 pb-0">
+                        <div class="form-check mb-2">
+                          <input class="form-check-input me-2" type="checkbox" value="" id="c-1" checked="">
+                          <label class="form-check-label" for="c-1"> Imporação Marítima</label>
+                          <span class="badge bg-light text-default fw-500 float-end">21</span>
+                        </div>
+                        <div class="form-check mb-2">
+                          <input class="form-check-input me-2" type="checkbox" value="" id="c-2">
+                          <label class="form-check-label" for="c-2"> Importação Aérea </label>
+                          <span class="badge bg-light text-default fw-500 float-end">21</span>
+                        </div>
+                        <div class="form-check mb-2">
+                          <input class="form-check-input me-2" type="checkbox" value="" id="c-3" checked="">
+                          <label class="form-check-label" for="c-3"> Importação Rodoviaria </label>
+                          <span class="badge bg-light text-default fw-500 float-end">21</span>
+                        </div>
+                        <div class="form-check mb-2">
+                          <input class="form-check-input me-2" type="checkbox" value="" id="c-4" checked="">
+                          <label class="form-check-label" for="c-4"> Importação Rodoviaria </label>
+                          <span class="badge bg-light text-default fw-500 float-end">3,453</span>
+                        </div>
+                        <div class="form-check mb-2">
+                          <input class="form-check-input me-2" type="checkbox" value="" id="c-1" checked="">
+                          <label class="form-check-label" for="c-1"> Exportação Marítima</label>
+                          <span class="badge bg-light text-default fw-500 float-end">21</span>
+                        </div>
+                        <div class="form-check mb-2">
+                          <input class="form-check-input me-2" type="checkbox" value="" id="c-2">
+                          <label class="form-check-label" for="c-2"> Importação Aérea </label>
+                          <span class="badge bg-light text-default fw-500 float-end">21</span>
+                        </div>
+                        <div class="form-check mb-2">
+                          <input class="form-check-input me-2" type="checkbox" value="" id="c-3" checked="">
+                          <label class="form-check-label" for="c-3"> Importação Rodoviaria </label>
+                          <span class="badge bg-light text-default fw-500 float-end">21</span>
+                        </div>
+                        <div class="form-check mb-2">
+                          <input class="form-check-input me-2" type="checkbox" value="" id="c-4" checked="">
+                          <label class="form-check-label" for="c-4"> Importação Rodoviaria </label>
+                          <span class="badge bg-light text-default fw-500 float-end">3,453</span>
+                        </div>
+                        
+                      </div>
+                    </div>
+                   
                   </div>
                 </div>
               </div>
-          
-             
+              <div class="col-xxl-9 col-xl-8">
+                <div class="row align-items-center mb-4">
+                  <div class="col-lg-12">
+                    <div class="input-group companies-search-input">
+                      <input type="text" class="form-control w-25" aria-label="" placeholder="Pesquisa por palavra chave">
+                   
+                    
+                      <button type="button" class="btn btn-primary">
+                        <i class="ri-search-line"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="card custom-card">
+                  <div class="card-body">
+                    <div class="d-flex flex-wrap gap-2 align-items-center">
+                      <h5 class="fw-semibold mb-0 flex-grow-1">254 <span class="fw-normal fs-18">Registros de comissões</span>
+                      </h5>
+                      <div class="btn-group">
+                        <button class="btn btn-outline-light border dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"> Ordenar </button>
+                        <ul class="dropdown-menu">
+                          <li>
+                            <a class="dropdown-item" href="javascript:void(0);">Pendente</a>
+                          </li>
+                          <li>
+                            <a class="dropdown-item" href="javascript:void(0);">Pago</a>
+                          </li>
+                          <li>
+                            <a class="dropdown-item" href="javascript:void(0);">Cancelado</a>
+                          </li>
+                          <li>
+                            <a class="dropdown-item" href="javascript:void(0);">Recente</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card custom-card">
+                  <div class="card-body">
+                    <div class="btn-list float-end">
+                      <a href="javascript:void(0);" class="avatar avatar-rounded avatar-sm bg-primary text-fixed-white" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Baixar Resumo" data-bs-original-title="Baixar Resumo">
+                        <span>
+                          <i class="bi bi-download"></i>
+                        </span>
+                      </a>
+                      <!-- <a href="javascript:void(0);" class="avatar avatar-rounded avatar-sm bg-light text-default" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Add to Wishlist" data-bs-original-title="Add to Wishlist">
+                        <span>
+                          <i class="bi bi-heart"></i>
+                        </span>
+                      </a> -->
+                      <a href="javascript:void(0);" class="avatar avatar-rounded avatar-sm bg-light text-default" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Ver detalhes" data-bs-original-title="Ver detalhes">
+                        <span>
+                          <i class="bi bi-eye"></i>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="d-flex mb-3 align-items-center flex-wrap gap-2">
+                      <div>
+                        <span class="avatar avatar-lg avatar-rounded">
+                          <img src="https://cdn.conlinebr.com.br/colaboradores/48908" alt="">
+                        </span>
+                      </div>
+                      <div>
+                        <h5 class="fw-semibold mb-0 d-flex align-items-center">
+                          <a href="#"> Adriani Silveira <i class="bi bi-check-circle-fill text-success fs-16" data-bs-toggle="tooltip" aria-label="Comissão paga" data-bs-original-title="Comissão paga"></i>
+                          </a>
+                        </h5>
+                        <div class="d-flex gap-2 flex-wrap">
+                          <a href="javascript:void(0);">Vendedoro Externo</a>
+                          <p class="mb-0 fs-12 text-muted">
+                            <i class="bi bi-geo-alt fs-11"></i> Itajaí, Santa Catarina
+                          </p>
+                        </div>
+              
+                      </div>
+                    </div>
+                 
+                    <div class="d-flex align-items-center">
+                      <p class="mb-0 flex-grow-1">
+                        <span class="text-muted">Processos:</span>
+                        <span class="fw-semibold" data-bs-toggle="tooltip" data-bs-original-title="Quantidade de processos"> 0008</span>
+                      </p>
+                      <p class="mb-0">
+                        <span class="text-muted">Valor: </span>
+                        <span class="fw-semibold" data-bs-toggle="tooltip" data-bs-original-title="Valor da Comissão"> R$125,56</span>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="card-footer">
+                    <div class="d-flex align-items-center gap-3 flex-wrap">
+                      <!-- <h6 class="mb-0 fw-semibold">Skills :</h6> -->
+                      <div class="popular-tags flex-grow-1">
+                        <!-- <a href="javascript:void(0);" class="badge rounded-pill bg-light text-default">HTML</a>
+                        <a href="javascript:void(0);" class="badge rounded-pill bg-light text-default">CSS</a>
+                        <a href="javascript:void(0);" class="badge rounded-pill bg-light text-default">Javascript</a>
+                        <a href="javascript:void(0);" class="badge rounded-pill bg-primary-transparent">More</a> -->
+                      </div>
+                      <div>
+                        <a href="javascript:void(0);" class="badge badge-md rounded-pill bg-info-transparent" data-bs-toggle="tooltip" data-bs-original-title="">
+                          <i class="bi bi-hand-thumbs-up me-1"></i>26/12/2023 14:15 </a>
+                        <a href="javascript:void(0);" class="badge badge-md rounded-pill bg-success-transparent">
+                          <i class="bi bi-briefcase me-1"></i>Pago </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card custom-card">
+                  <div class="card-body">
+                    <div class="btn-list float-end">
+                      <a href="javascript:void(0);" class="avatar avatar-rounded avatar-sm bg-primary text-fixed-white" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Baixar Resumo" data-bs-original-title="Baixar Resumo">
+                        <span>
+                          <i class="bi bi-download"></i>
+                        </span>
+                      </a>
+                      <!-- <a href="javascript:void(0);" class="avatar avatar-rounded avatar-sm bg-light text-default" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Add to Wishlist" data-bs-original-title="Add to Wishlist">
+                        <span>
+                          <i class="bi bi-heart"></i>
+                        </span>
+                      </a> -->
+                      <a href="javascript:void(0);" class="avatar avatar-rounded avatar-sm bg-light text-default" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Ver detalhes" data-bs-original-title="Ver detalhes">
+                        <span>
+                          <i class="bi bi-eye"></i>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="d-flex mb-3 align-items-center flex-wrap gap-2">
+                      <div>
+                        <span class="avatar avatar-lg avatar-rounded">
+                          <img src="https://cdn.conlinebr.com.br/colaboradores/48908" alt="">
+                        </span>
+                      </div>
+                      <div>
+                        <h5 class="fw-semibold mb-0 d-flex align-items-center">
+                          <a href="#"> Adriani Silveira <i class="bi bi-check-circle-fill text-success fs-16" data-bs-toggle="tooltip" aria-label="Comissão paga" data-bs-original-title="Comissão paga"></i>
+                          </a>
+                        </h5>
+                        <div class="d-flex gap-2 flex-wrap">
+                          <a href="javascript:void(0);">Vendedoro Externo</a>
+                          <p class="mb-0 fs-12 text-muted">
+                            <i class="bi bi-geo-alt fs-11"></i> Itajaí, Santa Catarina
+                          </p>
+                        </div>
+              
+                      </div>
+                    </div>
+                 
+                    <div class="d-flex align-items-center">
+                      <p class="mb-0 flex-grow-1">
+                        <span class="text-muted">Processos:</span>
+                        <span class="fw-semibold" data-bs-toggle="tooltip" data-bs-original-title="Quantidade de processos"> 0008</span>
+                      </p>
+                      <p class="mb-0">
+                        <span class="text-muted">Valor: </span>
+                        <span class="fw-semibold" data-bs-toggle="tooltip" data-bs-original-title="Valor da comissão"> R$125,56</span>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="card-footer">
+                    <div class="d-flex align-items-center gap-3 flex-wrap">
+                      <!-- <h6 class="mb-0 fw-semibold">Skills :</h6> -->
+                      <div class="popular-tags flex-grow-1">
+                        <!-- <a href="javascript:void(0);" class="badge rounded-pill bg-light text-default">HTML</a>
+                        <a href="javascript:void(0);" class="badge rounded-pill bg-light text-default">CSS</a>
+                        <a href="javascript:void(0);" class="badge rounded-pill bg-light text-default">Javascript</a>
+                        <a href="javascript:void(0);" class="badge rounded-pill bg-primary-transparent">More</a> -->
+                      </div>
+                      <div>
+                        <a href="javascript:void(0);" class="badge badge-md rounded-pill bg-info-transparent" data-bs-toggle="tooltip" data-bs-original-title="">
+                          <i class="bi bi-hand-thumbs-up me-1"></i>26/12/2023 14:15 </a>
+                        <a href="javascript:void(0);" class="badge badge-md rounded-pill bg-success-transparent">
+                          <i class="bi bi-briefcase me-1"></i>Pago </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="card custom-card">
+                  <div class="card-body">
+                    <div class="btn-list float-end">
+                      <a href="javascript:void(0);" class="avatar avatar-rounded avatar-sm bg-primary text-fixed-white" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Baixar Resumo" data-bs-original-title="Baixar Resumo">
+                        <span>
+                          <i class="bi bi-download"></i>
+                        </span>
+                      </a>
+                      <!-- <a href="javascript:void(0);" class="avatar avatar-rounded avatar-sm bg-light text-default" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Add to Wishlist" data-bs-original-title="Add to Wishlist">
+                        <span>
+                          <i class="bi bi-heart"></i>
+                        </span>
+                      </a> -->
+                      <a href="javascript:void(0);" class="avatar avatar-rounded avatar-sm bg-light text-default" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Ver detalhes" data-bs-original-title="Ver detalhes">
+                        <span>
+                          <i class="bi bi-eye"></i>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="d-flex mb-3 align-items-center flex-wrap gap-2">
+                      <div>
+                        <span class="avatar avatar-lg avatar-rounded">
+                          <img src="https://cdn.conlinebr.com.br/colaboradores/48908" alt="">
+                        </span>
+                      </div>
+                      <div>
+                        <h5 class="fw-semibold mb-0 d-flex align-items-center">
+                          <a href="#"> Adriani Silveira <i class="bi bi-check-circle-fill text-success fs-16" data-bs-toggle="tooltip" aria-label="Comissão paga" data-bs-original-title="Comissão paga"></i>
+                          </a>
+                        </h5>
+                        <div class="d-flex gap-2 flex-wrap">
+                          <a href="javascript:void(0);">Vendedoro Externo</a>
+                          <p class="mb-0 fs-12 text-muted">
+                            <i class="bi bi-geo-alt fs-11"></i> Itajaí, Santa Catarina
+                          </p>
+                        </div>
+              
+                      </div>
+                    </div>
+                 
+                    <div class="d-flex align-items-center">
+                      <p class="mb-0 flex-grow-1">
+                        <span class="text-muted">Processos:</span>
+                        <span class="fw-semibold" data-bs-toggle="tooltip" data-bs-original-title="Quantidade de processos"> 0008</span>
+                      </p>
+                      <p class="mb-0">
+                        <span class="text-muted">Valor: </span>
+                        <span class="fw-semibold" data-bs-toggle="tooltip" data-bs-original-title="Valor da Comissão"> R$125,56</span>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="card-footer">
+                    <div class="d-flex align-items-center gap-3 flex-wrap">
+                      <!-- <h6 class="mb-0 fw-semibold">Skills :</h6> -->
+                      <div class="popular-tags flex-grow-1">
+                        <!-- <a href="javascript:void(0);" class="badge rounded-pill bg-light text-default">HTML</a>
+                        <a href="javascript:void(0);" class="badge rounded-pill bg-light text-default">CSS</a>
+                        <a href="javascript:void(0);" class="badge rounded-pill bg-light text-default">Javascript</a>
+                        <a href="javascript:void(0);" class="badge rounded-pill bg-primary-transparent">More</a> -->
+                      </div>
+                      <div>
+                        <a href="javascript:void(0);" class="badge badge-md rounded-pill bg-info-transparent" data-bs-toggle="tooltip" data-bs-original-title="">
+                          <i class="bi bi-hand-thumbs-up me-1"></i>26/12/2023 14:15 </a>
+                        <a href="javascript:void(0);" class="badge badge-md rounded-pill bg-success-transparent">
+                          <i class="bi bi-briefcase me-1"></i>Pago </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+               
+               
+              </div>
             </div>
             <!--End::row-1 -->
           </div>
@@ -701,6 +1032,23 @@
     </div>
 
     <div id="responsive-overlay"></div>
+
+    <div class="modal fade" id="modaldemo8" style="display: none;" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered text-center modal-xl" role="document">
+        <div class="modal-content modal-content-demo">
+          <div class="modalBody">
+
+          </div>
+       
+        </div>
+      </div>
+    </div>
+
+    <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3">
+
+      
+    
+    </div>
 
 
 
@@ -728,7 +1076,19 @@
     <script src="../assets/js/select2.min.js"></script>
     <!-- <script src="../assets/js/select2.js"></script> -->
 
+    <script src="../assets/js/Toasts.js"></script>
+    <!-- <script src="../assets/js/comissoes.js"></script> -->
 
-    <script src="../assets/js/comissoes.js"></script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', async function () {
+ 
+
+    const loader = document.getElementById("loader");
+    loader.classList.add("d-none")
+
+
+});
+    </script>
 </body>
 </html>

@@ -529,7 +529,7 @@
           <!-- End::main-sidebar-header -->
           <!-- Start::main-sidebar -->
           <div class="main-sidebar" id="sidebar-scroll" data-simplebar="init">
-            <div class="simplebar-wrapper" style="margin: -8px 0px -80px;">
+            <div class="simplebar-wrapper" style="margin: 0px 0px -80px;">
               <div class="simplebar-height-auto-observer-wrapper">
                 <div class="simplebar-height-auto-observer"></div>
               </div>
@@ -553,28 +553,34 @@
                   
                      
                           <!-- Start::slide -->
-                          <li class="slide">
+                          <!-- <li class="slide">
                             <a href="/parceiro" class="side-menu__item active">
                               <i class="bx bx-table side-menu__icon"></i>
                               <span class="side-menu__label">Comissões </span>
                             </a>
-                          </li>
-                          <li class="slide ">
-                            <a href="/comissoes" class="side-menu__item">
-                              <i class="bx bx-table side-menu__icon"></i>
-                              <span class="side-menu__label">Histórico de Comissões </span>
-                            </a>
-                          </li>
+                          </li> -->
+                         
                      
-                    
-                    
-                    
                           <!-- End::slide -->
                           <!-- Start::slide -->
-                          <li class="slide has-sub">
-                            <a href="javascript:void(0);" class="side-menu__item">
+                          <li class="slide has-sub active"> 
+                            <a href="#" class="side-menu__item active"> 
+                               <i class="bx bx-home side-menu__icon"></i> 
+                               <span class="side-menu__label" style="margin-right: 14px;">Comissões</span> 
+                               <i class="fe fe-chevron-down side-menu__angle"></i> 
+                            </a>
+                            <ul class="slide-menu child1 active" style="position: relative; left: 0px; top: 0px; margin-right: 0px; margin-left: 0px; display: none; box-sizing: border-box; transform: translate(135px, 108px);" data-popper-placement="bottom" data-popper-escaped="">
+                               <li class="slide side-menu__label1"> <a>Comissões</a> </li>
+                               <li class="slide"> <a href="/parceiro" class="side-menu__item">Gerenciamento</a> </li>
+                               <li class="slide"> <a href="/comissoes" class="side-menu__item">Histórico</a> </li>
+                            </ul>
+                         </li>
+
+
+                          <!-- <li class="slide has-sub">
+                            <a href="javascript:void(0);" class="side-menu__item active">
                               <i class="bx bx-bar-chart-square side-menu__icon"></i>
-                              <span class="side-menu__label">Menu 2</span>
+                              <span class="side-menu__label">Comissões</span>
                               <i class="fe fe-chevron-right side-menu__angle"></i>
                             </a>
                             <ul class="slide-menu child1" data-popper-placement="bottom" style="position: relative; left: 0px; top: 0px; margin: 0px; transform: translate(120px, 1009px);">
@@ -584,13 +590,13 @@
                                 </a>
                                 <ul class="slide-menu child2">
                                   <li class="slide">
-                                    <a href="apex-line-charts.html" class="side-menu__item">Sub menu 2</a>
+                                    <a href="/parceiro" class="side-menu__item">Histórico</a>
                                   </li>
                                  
                                 </ul>
                               </li>
                             </ul>
-                          </li>
+                          </li> -->
                     
                          
               
@@ -694,7 +700,7 @@
                     </div>
                     
                     <div class="p-4" style="padding-bottom: 0 !important;">
-                      <button class="btn btn-warning btn-sm btn-wave waves-effect waves-light btn_searchComissoes" style="width: 100%;">Pesquisar Comissões</button>
+                      <button class="btn btn-success btn-sm btn-wave waves-effect waves-light btn_searchComissoes" style="width: 100%;">Pesquisar Comissões</button>
                     </div>
                   </div>
                   <br>
@@ -896,7 +902,7 @@
                       </li>
                     </ul>
                     <div class="row">
-                      <div class="col-xl-12 border-bottom pb-3 text-center d-flex flex-wrap">
+                      <div class="col-xl-12 border-bottom pb-3 text-center d-flex flex-wrap" style="display: block !important;">
                         <span class="fw-semibold ms-2 text-primary px-4">Informações sobre os registros selecionados</span>
                       </div>
                       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 border-end p-3 text-center">
@@ -913,7 +919,7 @@
                       <div class="d-flex flex-wrap gap-2">
                  
                         <div style="width: 100%;">
-                          <a style="width: 100%;" href="#" class="disabled btn btn-primary btn-sm btn-wave waves-effect waves-light btnGerarComissoes" aria-expanded="false"> Gerar registro de comissões
+                          <a style="width: 100%;" href="#" class="disabled btn btn-success btn-sm btn-wave waves-effect waves-light btnGerarComissoes" aria-expanded="false"> Gerar registro de comissões
                           </a>
                         
                         </div>
@@ -978,14 +984,7 @@
 
     <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3">
 
-      <div id="successToast" class="toast colored-toast bg-success-transparent fade hide" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header bg-success text-fixed-white">
-          <img class="bd-placeholder-img rounded me-2" src="../assets/images/brand-logos/toggle-dark.png" alt="...">
-          <strong class="me-auto title">Ynex</strong>
-          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-        <div class="toast-body"> Your,toast message here. </div>
-      </div>
+      
     
     </div>
 
