@@ -762,7 +762,7 @@
                 <div class="row align-items-center mb-4">
                   <div class="col-lg-12">
                     <div class="input-group companies-search-input">
-                      <input type="text" class="form-control w-25" aria-label="" placeholder="Pesquisa por palavra chave">
+                      <input type="text" class="form-control w-25 searchAllComissions" aria-label="" placeholder="Pesquisa por palavra chave">
                    
                     
                       <button type="button" class="btn btn-primary">
@@ -774,7 +774,7 @@
                 <div class="card custom-card">
                   <div class="card-body">
                     <div class="d-flex flex-wrap gap-2 align-items-center">
-                      <h5 class="fw-semibold mb-0 flex-grow-1">254 <span class="fw-normal fs-18">Registros de comissões</span>
+                      <h5 class="fw-semibold mb-0 flex-grow-1"><span class="countComission"></span> <span class="fw-normal fs-18">Registros de comissões</span>
                       </h5>
                       <div class="btn-group">
                         <button class="btn btn-outline-light border dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"> Ordenar </button>
@@ -796,216 +796,10 @@
                     </div>
                   </div>
                 </div>
-                <div class="card custom-card">
-                  <div class="card-body">
-                    <div class="btn-list float-end">
-                      <a href="javascript:void(0);" class="avatar avatar-rounded avatar-sm bg-primary text-fixed-white" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Baixar Resumo" data-bs-original-title="Baixar Resumo">
-                        <span>
-                          <i class="bi bi-download"></i>
-                        </span>
-                      </a>
-                      <!-- <a href="javascript:void(0);" class="avatar avatar-rounded avatar-sm bg-light text-default" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Add to Wishlist" data-bs-original-title="Add to Wishlist">
-                        <span>
-                          <i class="bi bi-heart"></i>
-                        </span>
-                      </a> -->
-                      <a href="javascript:void(0);" class="avatar avatar-rounded avatar-sm bg-light text-default" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Ver detalhes" data-bs-original-title="Ver detalhes">
-                        <span>
-                          <i class="bi bi-eye"></i>
-                        </span>
-                      </a>
-                    </div>
-                    <div class="d-flex mb-3 align-items-center flex-wrap gap-2">
-                      <div>
-                        <span class="avatar avatar-lg avatar-rounded">
-                          <img src="https://cdn.conlinebr.com.br/colaboradores/48908" alt="">
-                        </span>
-                      </div>
-                      <div>
-                        <h5 class="fw-semibold mb-0 d-flex align-items-center">
-                          <a href="#"> Adriani Silveira <i class="bi bi-check-circle-fill text-success fs-16" data-bs-toggle="tooltip" aria-label="Comissão paga" data-bs-original-title="Comissão paga"></i>
-                          </a>
-                        </h5>
-                        <div class="d-flex gap-2 flex-wrap">
-                          <a href="javascript:void(0);">Vendedoro Externo</a>
-                          <p class="mb-0 fs-12 text-muted">
-                            <i class="bi bi-geo-alt fs-11"></i> Itajaí, Santa Catarina
-                          </p>
-                        </div>
-              
-                      </div>
-                    </div>
-                 
-                    <div class="d-flex align-items-center">
-                      <p class="mb-0 flex-grow-1">
-                        <span class="text-muted">Processos:</span>
-                        <span class="fw-semibold" data-bs-toggle="tooltip" data-bs-original-title="Quantidade de processos"> 0008</span>
-                      </p>
-                      <p class="mb-0">
-                        <span class="text-muted">Valor: </span>
-                        <span class="fw-semibold" data-bs-toggle="tooltip" data-bs-original-title="Valor da Comissão"> R$125,56</span>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="card-footer">
-                    <div class="d-flex align-items-center gap-3 flex-wrap">
-                      <!-- <h6 class="mb-0 fw-semibold">Skills :</h6> -->
-                      <div class="popular-tags flex-grow-1">
-                        <!-- <a href="javascript:void(0);" class="badge rounded-pill bg-light text-default">HTML</a>
-                        <a href="javascript:void(0);" class="badge rounded-pill bg-light text-default">CSS</a>
-                        <a href="javascript:void(0);" class="badge rounded-pill bg-light text-default">Javascript</a>
-                        <a href="javascript:void(0);" class="badge rounded-pill bg-primary-transparent">More</a> -->
-                      </div>
-                      <div>
-                        <a href="javascript:void(0);" class="badge badge-md rounded-pill bg-info-transparent" data-bs-toggle="tooltip" data-bs-original-title="">
-                          <i class="bi bi-hand-thumbs-up me-1"></i>26/12/2023 14:15 </a>
-                        <a href="javascript:void(0);" class="badge badge-md rounded-pill bg-success-transparent">
-                          <i class="bi bi-briefcase me-1"></i>Pago </a>
-                      </div>
-                    </div>
-                  </div>
+                <div id="bodyHistorico" class="bodyHistorico" style="max-height: 79vh;overflow-x: auto;">
+                  
                 </div>
-
-                <div class="card custom-card">
-                  <div class="card-body">
-                    <div class="btn-list float-end">
-                      <a href="javascript:void(0);" class="avatar avatar-rounded avatar-sm bg-primary text-fixed-white" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Baixar Resumo" data-bs-original-title="Baixar Resumo">
-                        <span>
-                          <i class="bi bi-download"></i>
-                        </span>
-                      </a>
-                      <!-- <a href="javascript:void(0);" class="avatar avatar-rounded avatar-sm bg-light text-default" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Add to Wishlist" data-bs-original-title="Add to Wishlist">
-                        <span>
-                          <i class="bi bi-heart"></i>
-                        </span>
-                      </a> -->
-                      <a href="javascript:void(0);" class="avatar avatar-rounded avatar-sm bg-light text-default" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Ver detalhes" data-bs-original-title="Ver detalhes">
-                        <span>
-                          <i class="bi bi-eye"></i>
-                        </span>
-                      </a>
-                    </div>
-                    <div class="d-flex mb-3 align-items-center flex-wrap gap-2">
-                      <div>
-                        <span class="avatar avatar-lg avatar-rounded">
-                          <img src="https://cdn.conlinebr.com.br/colaboradores/48908" alt="">
-                        </span>
-                      </div>
-                      <div>
-                        <h5 class="fw-semibold mb-0 d-flex align-items-center">
-                          <a href="#"> Adriani Silveira <i class="bi bi-check-circle-fill text-success fs-16" data-bs-toggle="tooltip" aria-label="Comissão paga" data-bs-original-title="Comissão paga"></i>
-                          </a>
-                        </h5>
-                        <div class="d-flex gap-2 flex-wrap">
-                          <a href="javascript:void(0);">Vendedoro Externo</a>
-                          <p class="mb-0 fs-12 text-muted">
-                            <i class="bi bi-geo-alt fs-11"></i> Itajaí, Santa Catarina
-                          </p>
-                        </div>
-              
-                      </div>
-                    </div>
-                 
-                    <div class="d-flex align-items-center">
-                      <p class="mb-0 flex-grow-1">
-                        <span class="text-muted">Processos:</span>
-                        <span class="fw-semibold" data-bs-toggle="tooltip" data-bs-original-title="Quantidade de processos"> 0008</span>
-                      </p>
-                      <p class="mb-0">
-                        <span class="text-muted">Valor: </span>
-                        <span class="fw-semibold" data-bs-toggle="tooltip" data-bs-original-title="Valor da comissão"> R$125,56</span>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="card-footer">
-                    <div class="d-flex align-items-center gap-3 flex-wrap">
-                      <!-- <h6 class="mb-0 fw-semibold">Skills :</h6> -->
-                      <div class="popular-tags flex-grow-1">
-                        <!-- <a href="javascript:void(0);" class="badge rounded-pill bg-light text-default">HTML</a>
-                        <a href="javascript:void(0);" class="badge rounded-pill bg-light text-default">CSS</a>
-                        <a href="javascript:void(0);" class="badge rounded-pill bg-light text-default">Javascript</a>
-                        <a href="javascript:void(0);" class="badge rounded-pill bg-primary-transparent">More</a> -->
-                      </div>
-                      <div>
-                        <a href="javascript:void(0);" class="badge badge-md rounded-pill bg-info-transparent" data-bs-toggle="tooltip" data-bs-original-title="">
-                          <i class="bi bi-hand-thumbs-up me-1"></i>26/12/2023 14:15 </a>
-                        <a href="javascript:void(0);" class="badge badge-md rounded-pill bg-success-transparent">
-                          <i class="bi bi-briefcase me-1"></i>Pago </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-                <div class="card custom-card">
-                  <div class="card-body">
-                    <div class="btn-list float-end">
-                      <a href="javascript:void(0);" class="avatar avatar-rounded avatar-sm bg-primary text-fixed-white" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Baixar Resumo" data-bs-original-title="Baixar Resumo">
-                        <span>
-                          <i class="bi bi-download"></i>
-                        </span>
-                      </a>
-                      <!-- <a href="javascript:void(0);" class="avatar avatar-rounded avatar-sm bg-light text-default" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Add to Wishlist" data-bs-original-title="Add to Wishlist">
-                        <span>
-                          <i class="bi bi-heart"></i>
-                        </span>
-                      </a> -->
-                      <a href="javascript:void(0);" class="avatar avatar-rounded avatar-sm bg-light text-default" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Ver detalhes" data-bs-original-title="Ver detalhes">
-                        <span>
-                          <i class="bi bi-eye"></i>
-                        </span>
-                      </a>
-                    </div>
-                    <div class="d-flex mb-3 align-items-center flex-wrap gap-2">
-                      <div>
-                        <span class="avatar avatar-lg avatar-rounded">
-                          <img src="https://cdn.conlinebr.com.br/colaboradores/48908" alt="">
-                        </span>
-                      </div>
-                      <div>
-                        <h5 class="fw-semibold mb-0 d-flex align-items-center">
-                          <a href="#"> Adriani Silveira <i class="bi bi-check-circle-fill text-success fs-16" data-bs-toggle="tooltip" aria-label="Comissão paga" data-bs-original-title="Comissão paga"></i>
-                          </a>
-                        </h5>
-                        <div class="d-flex gap-2 flex-wrap">
-                          <a href="javascript:void(0);">Vendedoro Externo</a>
-                          <p class="mb-0 fs-12 text-muted">
-                            <i class="bi bi-geo-alt fs-11"></i> Itajaí, Santa Catarina
-                          </p>
-                        </div>
-              
-                      </div>
-                    </div>
-                 
-                    <div class="d-flex align-items-center">
-                      <p class="mb-0 flex-grow-1">
-                        <span class="text-muted">Processos:</span>
-                        <span class="fw-semibold" data-bs-toggle="tooltip" data-bs-original-title="Quantidade de processos"> 0008</span>
-                      </p>
-                      <p class="mb-0">
-                        <span class="text-muted">Valor: </span>
-                        <span class="fw-semibold" data-bs-toggle="tooltip" data-bs-original-title="Valor da Comissão"> R$125,56</span>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="card-footer">
-                    <div class="d-flex align-items-center gap-3 flex-wrap">
-                      <!-- <h6 class="mb-0 fw-semibold">Skills :</h6> -->
-                      <div class="popular-tags flex-grow-1">
-                        <!-- <a href="javascript:void(0);" class="badge rounded-pill bg-light text-default">HTML</a>
-                        <a href="javascript:void(0);" class="badge rounded-pill bg-light text-default">CSS</a>
-                        <a href="javascript:void(0);" class="badge rounded-pill bg-light text-default">Javascript</a>
-                        <a href="javascript:void(0);" class="badge rounded-pill bg-primary-transparent">More</a> -->
-                      </div>
-                      <div>
-                        <a href="javascript:void(0);" class="badge badge-md rounded-pill bg-info-transparent" data-bs-toggle="tooltip" data-bs-original-title="">
-                          <i class="bi bi-hand-thumbs-up me-1"></i>26/12/2023 14:15 </a>
-                        <a href="javascript:void(0);" class="badge badge-md rounded-pill bg-success-transparent">
-                          <i class="bi bi-briefcase me-1"></i>Pago </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+           
                
                
               </div>
@@ -1077,18 +871,9 @@
     <!-- <script src="../assets/js/select2.js"></script> -->
 
     <script src="../assets/js/Toasts.js"></script>
-    <!-- <script src="../assets/js/comissoes.js"></script> -->
+    <script src="../assets/js/controller-comissions.js"></script>
 
 
-    <script>
-      document.addEventListener('DOMContentLoaded', async function () {
  
-
-    const loader = document.getElementById("loader");
-    loader.classList.add("d-none")
-
-
-});
-    </script>
 </body>
 </html>

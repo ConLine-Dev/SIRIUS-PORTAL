@@ -138,6 +138,7 @@ const commission = {
         MAX(cr.date) AS date,
         MAX(cr.user) AS idHeadCargoUser,
         MAX(c.name) AS userComission_name,
+        MAX(c.family_name) AS family_name,
         MAX(c.id) AS idUser,
         SUM(ch.commission) AS total_commission_value
     FROM 
@@ -151,10 +152,11 @@ const commission = {
     ORDER BY 
         commission_reference_id desc`);
 
-
+        
         comission = comission.map(element => {
             return {
                 ...element,
+                userComission_name: this.formatarNomeCompleto(`${element.userComission_name} ${element.family_name}`),
                 total_commission_value: commission.formatCurrency(element.total_commission_value),
                 date: commission.formatDateBR(element.date)
             };
@@ -290,7 +292,7 @@ const commission = {
     // Criar a string formatada
     return `${dia}/${mes}/${ano} ${hora}:${minutos}`;
     },
-    formatarNomeCompleto: async function (nomeCompleto) {
+    formatarNomeCompleto: function (nomeCompleto) {
         if(nomeCompleto != null){
         // Lista de prefixos que devem permanecer em minúsculas
         const prefixos = ["de", "da", "do", "dos", "das"];
