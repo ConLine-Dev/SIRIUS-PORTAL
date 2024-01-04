@@ -10,7 +10,10 @@ document.addEventListener('DOMContentLoaded', async function () {
     await ComissionHistory()
 
     const loader = document.getElementById("loader");
-    loader.classList.add("d-none")
+
+    setInterval(() => {
+        loader.classList.add("d-none")
+    }, 1500);
 
 
 });
@@ -20,7 +23,7 @@ async function adicionarLoader(seletor) {
     var alvo = document.querySelector(seletor);
 
 
-    var html = `<div class="loading"> <img src="../assets/images/media/loader.svg" alt=""> </div>` 
+    var html = `<div class="loading"> <img style="width: 150px;" src="../assets/images/media/icon-semfundo2.gif" alt=""> </div>` 
 
     var loader = document.createElement('div');
     loader.classList.add('Newloading')
@@ -37,7 +40,9 @@ async function adicionarLoader(seletor) {
 
 async function removerLoader(loader) {
     // Obtenha o pai do loader e remova o loader
-    loader.remove();
+    setInterval(() => {
+        loader.remove();
+    }, 500);
 }
 
 async function initializeDataTable() {
@@ -476,7 +481,7 @@ async function loadingContentComission(id){
 
     const tableList = comissionados.table
 
-
+    const comissionGroupID = tableList[0].reference_id;
 
 const body = `
 <div class="card custom-card">
@@ -506,7 +511,7 @@ const body = `
         <span class="d-block fs-15 fw-semibold">${comissionados.status_comission == 0 ? '<span class="badge bg-secondary"> Pendente </span>' : comissionados.status_comission == 1 ? '<span class="badge bg-warning"> Aprovado <br>'+comissionados.approved_date+'</span>' : comissionados.status_comission == 2 ? '<span class="badge bg-danger"> Reprovado <br>'+comissionados.declined_date+'</span>' : comissionados.status_comission == 3 ? '<span class="badge bg-warning"> Aprovado <br>'+comissionados.payment_date+'</span>' : '' }</span>
       </div>
       <div>
-      <span class="d-block fs-14 fw-semibold"><div class="prism-toggle"> <button class="btn btn-sm btn-primary">Detalhes<i class="ri-book-mark-fill ms-2 d-inline-block align-middle"></i></button> </div></span>
+      <span class="d-block fs-14 fw-semibold"><div class="prism-toggle"> <a href="/comission-details?id=${comissionGroupID}" target="_blank" class="btn btn-sm btn-primary">Detalhes<i class="ri-book-mark-fill ms-2 d-inline-block align-middle"></i></a> </div></span>
     </div>
     </div>
     <hr>

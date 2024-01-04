@@ -36,7 +36,7 @@ async function ComissionHistory(){
                 <i class="bi bi-download"></i>
               </span>
             </a>
-            <a  data-idComission="${element.commission_reference_id}" class="modal-effect avatar avatar-rounded avatar-sm bg-light text-default" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Ver detalhes" data-bs-original-title="Ver detalhes">
+            <a href="/comission-details?id=${element.commission_reference_id}" target="_blank" class="avatar avatar-rounded avatar-sm bg-light text-default" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Ver detalhes" data-bs-original-title="Ver detalhes">
               <span>
                 <i class="bi bi-eye"></i>
               </span>
@@ -166,7 +166,7 @@ async function loadingContentComission(id){
 
     const tableList = comissionados.table
 
-
+    const comissionGroupID = tableList[0].reference_id;
 
 const body = `
 <div class="card custom-card">
@@ -196,7 +196,7 @@ const body = `
         <span class="d-block fs-15 fw-semibold">${comissionados.status_comission == 0 ? '<span class="badge bg-secondary"> Pendente </span>' : comissionados.status_comission == 1 ? '<span class="badge bg-warning"> Aprovado <br>'+comissionados.approved_date+'</span>' : comissionados.status_comission == 2 ? '<span class="badge bg-danger"> Reprovado <br>'+comissionados.declined_date+'</span>' : comissionados.status_comission == 3 ? '<span class="badge bg-warning"> Aprovado <br>'+comissionados.payment_date+'</span>' : '' }</span>
       </div>
       <div>
-      <span class="d-block fs-14 fw-semibold"><div class="prism-toggle"> <button class="btn btn-sm btn-primary">Detalhes<i class="ri-book-mark-fill ms-2 d-inline-block align-middle"></i></button> </div></span>
+      <span class="d-block fs-14 fw-semibold"><div class="prism-toggle"> <a target="_blank" href="/comission-details?id=${comissionGroupID}" class="btn btn-sm btn-primary">Detalhes<i class="ri-book-mark-fill ms-2 d-inline-block align-middle"></i></a> </div></span>
     </div>
     </div>
     <hr>
