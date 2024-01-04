@@ -31,6 +31,12 @@
    
     <script src="../assets/js/main.js"></script>
 
+    <style>
+      .btn-list a, .btn-list button, .btn-list div, .btn-list input {
+            margin: 0 .375rem 0 0
+    }
+    </style>
+
 
 
 </head>
@@ -396,7 +402,7 @@
       </div>
     </div>
   </div>
-    <div id="loader"> <img src="../assets/images/media/loader.svg" alt=""> </div>
+    <div id="loader"> <img style="width: 150px;" src="../assets/images/media/icon-semfundo2.gif" alt=""> </div>
     <div class="page">
         <!-- app-header -->
         <header class="app-header">
@@ -407,7 +413,7 @@
               <!-- Start::header-element -->
               <div class="header-element">
                 <div class="horizontal-logo">
-                  <a href="index.html" class="header-logo">
+                  <a href="/" class="header-logo">
                     <img src="../assets/images/brand-logos/desktop-logo.png" alt="logo" class="desktop-logo">
                     <img src="../assets/images/brand-logos/toggle-logo.png" alt="logo" class="toggle-logo">
                     <img src="../assets/images/brand-logos/desktop-dark.png" alt="logo" class="desktop-dark">
@@ -517,7 +523,7 @@
         <aside class="app-sidebar sticky sticky-pin" id="sidebar">
           <!-- Start::main-sidebar-header -->
           <div class="main-sidebar-header">
-            <a href="index.html" class="header-logo">
+            <a href="/" class="header-logo">
               <img src="../assets/images/brand-logos/desktop-logo.png" alt="logo" class="desktop-logo">
               <img src="../assets/images/brand-logos/toggle-logo.png" alt="logo" class="toggle-logo">
               <img src="../assets/images/brand-logos/desktop-dark.png" alt="logo" class="desktop-dark">
@@ -629,16 +635,51 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="btn-list">
-                              <a href="javascript:void(0);" class="btn btn-warning">
-                                <i class="bi bi-download me-1"></i> Baixa 
+                            <div class="btn-list" style="display: flex;">
+                             
+                              <a class="btn btn-danger btn-sm btn-wave waves-effect waves-light">Efetuar Baixa</a>
+
+                              
+
+                              <div class="dropdown">
+                                <a href="javascript:void(0);" class="btn btn-success-light btn-sm btn-wave waves-effect waves-light" data-bs-toggle="dropdown" aria-expanded="true"> Exportar <i class="ri-arrow-down-s-line align-middle ms-1 d-inline-block"></i>
+                                </a>
+                                <ul class="dropdown-menu" role="menu" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(0px, 31px);" data-popper-placement="bottom-end">
+                                  <li>
+                                    <a class="dropdown-item" href="javascript:void(0);">PDF</a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item" href="javascript:void(0);">Excel</a>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item" href="javascript:void(0);">Email</a>
+                                  </li>
+                                </ul>
+                              </div>
+
+                              <div class="dropdown">
+                                <a href="javascript:void(0);" class="btn btn-success-light btn-sm btn-wave waves-effect waves-light" data-bs-toggle="dropdown" aria-expanded="true"> Ação <i class="ri-arrow-down-s-line align-middle ms-1 d-inline-block"></i>
+                                </a>
+                                <ul class="dropdown-menu" role="menu" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(0px, 31px);" data-popper-placement="bottom-end">
+                                  <li>
+                                    <a style="white-space: nowrap;" class="dropdown-item" href="javascript:void(0);">Voltar para aprovação</a>
+                                  </li>
+                                
+                                </ul>
+                              </div>
+                             
+                              <!-- <a href="javascript:void(0);" class="btn btn-warning">
+                                <i class="bi bi-download me-1"></i> Efetuar Baixa 
+                              </a>
+                              <a href="javascript:void(0);" class="btn btn-primary-light">
+                                <i class="bi bi-download me-1"></i> Exportar 
                               </a>
                               <a href="javascript:void(0);" class="btn btn-icon btn-primary-light btn-wave waves-effect waves-light">
-                                <i class="bi-download"></i> 
+                                <i class="bi-download"></i>
                               </a>
                               <a href="javascript:void(0);" class="btn btn-icon btn-primary-light btn-wave waves-effect waves-light">
                                 <i class="ri-share-line"></i>
-                              </a>
+                              </a> -->
                             </div>
                           </div>
                         </div>

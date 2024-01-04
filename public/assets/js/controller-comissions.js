@@ -113,7 +113,7 @@ async function adicionarLoader(seletor) {
     var alvo = document.querySelector(seletor);
 
 
-    var html = `<div class="loading"> <img src="../assets/images/media/loader.svg" alt=""> </div>` 
+    var html = `<div class="loading"> <img style="width: 150px;" src="../assets/images/media/icon-semfundo2.gif" alt=""> </div>` 
 
     var loader = document.createElement('div');
     loader.classList.add('Newloading')
