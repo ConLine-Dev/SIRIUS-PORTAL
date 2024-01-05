@@ -42,7 +42,7 @@ async function removerLoader(loader) {
     // Obtenha o pai do loader e remova o loader
     setInterval(() => {
         loader.remove();
-    }, 500);
+    }, 500);2
 }
 
 async function initializeDataTable() {

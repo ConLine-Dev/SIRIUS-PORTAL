@@ -1,6 +1,13 @@
 const tables = []
 document.addEventListener('DOMContentLoaded', async function () {
- 
+    const ButtonSearchComissoes = document.querySelector('.btn-approve');
+    // ButtonSearchComissoes.addEventListener('click', handleSearchComissoes(ButtonSearchComissoes.getAttribute('data-id')));
+
+    ButtonSearchComissoes.addEventListener('click', function(e){
+        console.log('dsads')
+        e.preventDefault();
+        handleSearchComissoes(ButtonSearchComissoes.getAttribute('data-id'))
+    })
 
     
 
@@ -15,6 +22,33 @@ document.addEventListener('DOMContentLoaded', async function () {
 async function HiddenLoader(){
     const loader = document.getElementById("loader");
     loader.classList.add("d-none")
+}
+
+async function adicionarLoader(seletor) {
+    // Selecione o elemento alvo (pode ser uma classe ou ID)
+    var alvo = document.querySelector(seletor);
+
+
+    var html = `<div class="loading"> <img style="width: 150px;" src="../assets/images/media/icon-semfundo2.gif" alt=""> </div>` 
+
+    var loader = document.createElement('div');
+    loader.classList.add('Newloading')
+    loader.innerHTML = html;
+
+   
+
+    // Adicione o loader ao elemento alvo
+    alvo.appendChild(loader);
+
+    // Retorne o loader para que possa ser removido posteriormente
+    return loader;
+}
+
+async function removerLoader(loader) {
+    // Obtenha o pai do loader e remova o loader
+    setInterval(() => {
+        loader.remove();
+    }, 500);2
 }
 
 async function loadingContentComission(id){
@@ -99,7 +133,6 @@ setTimeout(async () => {
 
 }
 
-
 function formatDate(dataOriginal){
     // Criar um objeto de data
     let data = new Date(dataOriginal);
@@ -165,4 +198,110 @@ function getModalImage(modal) {
     return modal == 'IM' ? 'maritimo_importacao.svg' :
         modal == 'EM' ? 'maritimo_exportacao.svg' :
             modal == 'IA' ? 'aereo_importacao.svg' : 'aereo_exportacao.svg';
+}
+
+
+
+
+async function initializeDataTable() {
+    return $('#table-comissoes-approve').DataTable({
+        scrollY: '400px',
+        scrollCollapse: true,
+        order: [],
+        columnDefs: [
+            { "orderable": false, "targets": [0, 1, 2] },
+            {
+                targets: 3,
+                render: function (data) {
+                    const continuar = data.length > 14 ? '...' : '';
+                    return data.substr(0, 15) + continuar;
+                }
+            }
+        ],
+        paging: false,
+        scrollX: true,
+        language: {
+            searchPlaceholder: 'Search...',
+            sSearch: '',
+        },
+    });
+}
+
+
+
+async function handleSearchComissoes(id) {
+  
+
+    const meuLoader = await adicionarLoader('.bodyCardComissoes .cardLoader');
+
+    // const tableCommissions = await Thefetch('/api/commissionByUser', 'POST', { body: JSON.stringify({ UserId: idUser}) });
+
+    const comissionados = await Thefetch('/api/ContentComissionHistory', 'POST', { body: JSON.stringify({id:id})})
+    const tableList = comissionados.table
+
+    if(!tables['table-comissoes-approve']){
+        tables['table-comissoes-approve'] = await initializeDataTable();
+    }
+    
+    tables['table-comissoes-approve'].clear();
+
+    tableList.forEach(dados => {
+        // const newDados = {
+        //     check: `<input class="form-check-input checkTableComissoes" data-json='${JSON.stringify(dados)}' value="${dados.commission}" checked="" type="checkbox" id="${dados.IdLogistica_House}">`,
+        //     open: ``,
+        //     modal: `<img title="${dados.MODAL}" src="/assets/images/${getModalImage(dados.MODAL)}" style="width: 1.75rem;height: 1.75rem;">`,
+        //     processo: dados.Numero_Processo,
+        //     abertura: formatDate(dados.Data_Auditado),
+        //     vendedor: createAvatarColumn(dados.ID_VENDEDOR, dados.VENDEDOR),
+        //     inside: createAvatarColumn(dados.ID_INSIDE_SALES, dados.INSIDE_SALES),
+        //     efetivo: formatCurrency(dados.VALOR_EFETIVO_TOTAL),
+        //     'porcentagem': dados.percentage+' %',
+        //     'comissao': formatCurrency(dados.commission)
+        // };
+
+        const newDados = {
+            check: `<input class="form-check-input checkTableComissoes" data-json='${JSON.stringify(dados)}' value="${dados.commission}" checked="" type="checkbox" id="">`,
+            modal: `<img title="${dados.modal}" src="/assets/images/${getModalImage(dados.modal)}" style="width: 1.75rem;height: 1.75rem;">`,
+            processo: dados.reference_process,
+            auditado: dados.audited,
+            vendedor: createAvatarColumn(dados.id_seller, `${dados.seller_name} ${dados.seller_family_name}`),
+            inside: createAvatarColumn(dados.id_inside, `${dados.inside_name} ${dados.inside_family_name}`),
+            efetivo: formatCurrency(dados.effective),
+            'porcentagem': dados.percentage+' %',
+            'comissao': formatCurrency(dados.commission)
+        };
+
+        const rowNode = tables['table-comissoes-approve'].row.add(Object.values(newDados)).node();
+        // $(rowNode).find('td:eq(1)').addClass('dtr-control');
+    });
+
+    tables['table-comissoes-approve'].draw();
+   
+
+    // Manipula o clique no checkbox "checkTableComissoesAll"
+    const check = document.querySelectorAll('.checkTableComissoes');
+    for (let index = 0; index < check.length; index++) {
+        const element = check[index];
+        element.addEventListener('change', async function() {
+            await getInfComissoes();
+        });
+    }
+
+
+
+    // const namesComissionados = document.querySelectorAll('.NameComissionado')
+
+    // for (let index = 0; index < namesComissionados.length; index++) {
+    //     const element = namesComissionados[index];
+
+    //     element.textContent = $('.js-example-templating option:selected').text();
+        
+    // }
+
+    await removerLoader(meuLoader);
+
+
+
+
+
 }

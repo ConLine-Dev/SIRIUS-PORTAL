@@ -662,7 +662,13 @@
                                 </a>
                                 <ul class="dropdown-menu" role="menu" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(0px, 31px);" data-popper-placement="bottom-end">
                                   <li>
-                                    <a style="white-space: nowrap;" class="dropdown-item" href="javascript:void(0);">Voltar para aprovação</a>
+                                    <a style="white-space: nowrap;" class="dropdown-item" href="javascript:void(0);">Envia para aprovação</a>
+                                  </li>
+                                  <li>
+                                    <a style="white-space: nowrap;" class="dropdown-item modal-effect btn-approve" data-id="89" data-bs-effect="effect-flip-vertical" data-bs-toggle="modal" href="#modalAprovar">Aprovar</a>
+                                  </li>
+                                  <li>
+                                    <a style="white-space: nowrap;" class="dropdown-item" href="javascript:void(0);">Reprovar</a>
                                   </li>
                                 
                                 </ul>
@@ -775,6 +781,47 @@
 
           </div>
        
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade effect-flip-vertical modal-xl" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="modalAprovar" aria-modal="true" role="dialog">
+      <div class="modal-dialog modal-dialog-centered text-center" role="document">
+        <div class="modal-content modal-content-demo">
+          <div class="modal-header">
+            <h6 class="modal-title">Comissões</h6>
+            <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body text-start">
+            <div class="card-body bodyCardComissoes">
+              <div class="cardLoader"></div>
+  
+                <table id="table-comissoes-approve" class="table table-bordered text-nowrap w-100 dataTable no-footer collapsed">
+                  <thead>
+                    <tr>
+                      <th scope="col"><input class="form-check-input checkTableComissoesAll" checked="" type="checkbox" value=""></th>
+                      <th scope="col" style="width: 10px;">Modal</th>
+                      <th scope="col">Processo</th>
+                      <th scope="col">Auditado</th>
+                      <th scope="col">Vendedor</th>
+                      <th scope="col">Inside</th>
+                      <th scope="col">Efetivo</th>
+                      <th scope="col">%</th>
+                      <th scope="col">Comissão</th>
+                    </tr>
+                  </thead>
+                  
+                  <tbody>
+                
+                  </tbody>
+                </table>
+           
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary">Enviar para pagamento</button>
+            <button class="btn btn-light" data-bs-dismiss="modal">Sair</button>
+          </div>
         </div>
       </div>
     </div>
