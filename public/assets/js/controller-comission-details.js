@@ -1,23 +1,144 @@
 const tables = []
 document.addEventListener('DOMContentLoaded', async function () {
-    const ButtonSearchComissoes = document.querySelector('.btn-approve');
-    // ButtonSearchComissoes.addEventListener('click', handleSearchComissoes(ButtonSearchComissoes.getAttribute('data-id')));
-
-    ButtonSearchComissoes.addEventListener('click', function(e){
-        console.log('dsads')
-        e.preventDefault();
-        handleSearchComissoes(ButtonSearchComissoes.getAttribute('data-id'))
-    })
-
-    
 
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
    
     await loadingContentComission(id)
+    
+
+
+    const ButtonSearchComissoes = document.querySelector('.btn-approve');
+    ButtonSearchComissoes.addEventListener('click', async function(e){
+        console.log('dsads')
+        e.preventDefault();
+        await handleSearchComissoes(ButtonSearchComissoes.getAttribute('data-id'))
+    })
+
+    const ButtonRepprove = document.querySelector('.repprove-confirm');
+    ButtonRepprove.addEventListener('click', async function(e){
+        Swal.fire({
+            title: 'Tem certeza?',
+            text: "Você não poderá reverter isso!",
+            icon: 'error',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim, reprovar!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                    'Reprovado!',
+                    'Todas as comissões foram reprovadas',
+                    'success'
+                )
+            }
+        })
+ 
+    })
+
+    const ButtonPay = document.querySelector('.pay-confirm');
+    ButtonPay.addEventListener('click', async function(e){
+        Swal.fire({
+            title: 'Deseja continuar?',
+            text: "Você não poderá reverter isso!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim, efetuar baixa!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                    'Tudo certo!',
+                    'Baixa efetuada com sucesso!',
+                    'success'
+                )
+            }
+        })
+ 
+    })
+
+    // Manipula o clique no checkbox "checkTableComissoesAll"
+    const checkAll = document.querySelector('.checkTableComissoesAll');
+    checkAll.addEventListener('change', async function() {
+        // Obtém o estado (marcado ou desmarcado) do checkbox "checkTableComissoesAll"
+        var isChecked = this.checked;
+
+        // Atualiza o estado de todos os checkboxes com a classe "checkTableComissoes"
+        var checkboxes = document.querySelectorAll('.checkTableComissoes');
+        checkboxes.forEach(function(checkbox) {
+        checkbox.checked = isChecked;
+        });
+
+        await getInfComissoes();
+    });
+
+    const ButtonSendEmail = document.querySelector('.ButtonSendEmail');
+    ButtonSendEmail.addEventListener('click', async function() {
+        Swal.fire({
+            title: 'Enviar relatório por e-mail',
+            html: `<input
+                    type="text"
+                    class="swal2-input"
+                    id="choices-text-email-filter">`,
+            showCancelButton: true,
+            confirmButtonText: 'Enviar',
+            showLoaderOnConfirm: true,
+            preConfirm: (login) => {
+                return fetch(`https://jsonplaceholder.typicode.com/posts`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(response.statusText)
+                        }
+                        return response.json()
+                    })
+                    .catch(error => {
+                        Swal.showValidationMessage(
+                            `Request failed: ${error}`
+                        )
+                    })
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: `E-mail enviado com sucesso`,
+                    // imageUrl: result.value.avatar_url
+                })
+            }
+        })
+
+
+        new Choices('#choices-text-email-filter', {
+            allowHTML: true,
+            editItems: true,
+            addItemFilter: function (value) {
+         
+              if (!value) {
+                return false;
+              }
+              const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+              const expression = new RegExp(regex.source, 'i');
+
+              console.log(expression.test(value))
+              return expression.test(value);
+            },
+          });
+    });
+
+
+
+
+ 
+
+
     await HiddenLoader()
     
 });
+
+
+
 
 async function HiddenLoader(){
     const loader = document.getElementById("loader");
@@ -205,18 +326,31 @@ function getModalImage(modal) {
 
 async function initializeDataTable() {
     return $('#table-comissoes-approve').DataTable({
+        // responsive: {
+        //     details: {
+        //         display: $.fn.dataTable.Responsive.display.modal({
+        //             header: function (row) {
+        //                 var data = row.data();
+        //                 return data[0] + ' ' + data[1];
+        //             }
+        //         }),
+        //         renderer: $.fn.dataTable.Responsive.renderer.tableAll({
+        //             tableClass: 'table'
+        //         })
+        //     }
+        // },
         scrollY: '400px',
         scrollCollapse: true,
         order: [],
         columnDefs: [
             { "orderable": false, "targets": [0, 1, 2] },
-            {
-                targets: 3,
-                render: function (data) {
-                    const continuar = data.length > 14 ? '...' : '';
-                    return data.substr(0, 15) + continuar;
-                }
-            }
+            // {
+            //     targets: 3,
+            //     render: function (data) {
+            //         const continuar = data.length > 14 ? '...' : '';
+            //         return data.substr(0, 15) + continuar;
+            //     }
+            // }
         ],
         paging: false,
         scrollX: true,
@@ -267,15 +401,19 @@ async function handleSearchComissoes(id) {
             vendedor: createAvatarColumn(dados.id_seller, `${dados.seller_name} ${dados.seller_family_name}`),
             inside: createAvatarColumn(dados.id_inside, `${dados.inside_name} ${dados.inside_family_name}`),
             efetivo: formatCurrency(dados.effective),
-            'porcentagem': dados.percentage+' %',
-            'comissao': formatCurrency(dados.commission)
+            // 'porcentagem': dados.percentage+' %',
+            // 'comissao': formatCurrency(dados.commission)
         };
 
         const rowNode = tables['table-comissoes-approve'].row.add(Object.values(newDados)).node();
         // $(rowNode).find('td:eq(1)').addClass('dtr-control');
     });
 
-    tables['table-comissoes-approve'].draw();
+    // tables['table-comissoes-approve'].draw();
+    setTimeout(async () => {
+        tables['table-comissoes-approve'].columns.adjust().draw();
+        await removerLoader(meuLoader);
+    }, 300);
    
 
     // Manipula o clique no checkbox "checkTableComissoesAll"
@@ -298,10 +436,11 @@ async function handleSearchComissoes(id) {
         
     // }
 
-    await removerLoader(meuLoader);
+    // await removerLoader(meuLoader);
 
 
 
 
 
 }
+
