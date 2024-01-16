@@ -131,6 +131,21 @@ const commission = {
     
         return referencia;
     },
+    sendPayment: async function(process){
+         //0 PENDENTE
+        //1 AGUARDANDO APROVAÇÃO
+        //2 APROVADO
+        //3 REPROVADO 
+
+
+        process.forEach(async element => {
+            await executeQuery(`UPDATE commission_history SET status = ${element.status} WHERE id = ${element.id}`);
+        });
+        
+
+        return true;
+
+    },
     ComissionHistory: async function(){
         let comission = await executeQuery(`SELECT 
         cr.id AS commission_reference_id,
@@ -232,6 +247,7 @@ const commission = {
             payment_date:result[0].payment_date != '' && result[0].payment_date != null ? commission.formatDateBR(result[0].payment_date) : '',
             dateComission: commission.formatDateBR(result[0].create_comission),
             table:table,
+            refComission:result[0].reference,
 
         }
 

@@ -1,35 +1,63 @@
 const tables = []
+const Alltoasts = [];
+let userSelected = 0
 document.addEventListener('DOMContentLoaded', async function () {
 
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
-   
+    userSelected = id
     await loadingContentComission(id)
     
 
 
+    // const ButtonSearchComissoes = document.querySelector('.btn-approve');
+    // ButtonSearchComissoes?.addEventListener('click', async function(e){
+    //     console.log('dsads')
+    //     e.preventDefault();
+    //     await handleSearchComissoes(ButtonSearchComissoes.getAttribute('data-id'))
+    // })
+
     const ButtonSearchComissoes = document.querySelector('.btn-approve');
-    ButtonSearchComissoes.addEventListener('click', async function(e){
-        console.log('dsads')
-        e.preventDefault();
-        await handleSearchComissoes(ButtonSearchComissoes.getAttribute('data-id'))
+    ButtonSearchComissoes?.addEventListener('click', async function(e){
+        Swal.fire({
+            title: 'Tem certeza?',
+            text: "Os processos selecionados serão pagos nesta comissão.",
+            icon: 'success',
+            showCancelButton: true,
+            confirmButtonColor: '#26bf94',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim, aprovadar!'
+        }).then(async (result)=> {
+            if (result.isConfirmed) {
+
+                await changeStatusComissions(2)
+                Swal.fire(
+                    'Aprovadas!',
+                    'Comissões selecionadas foram aprovadas.',
+                    'success'
+                )
+            }
+        })
+ 
     })
 
     const ButtonRepprove = document.querySelector('.repprove-confirm');
-    ButtonRepprove.addEventListener('click', async function(e){
+    ButtonRepprove?.addEventListener('click', async function(e){
         Swal.fire({
             title: 'Tem certeza?',
-            text: "Você não poderá reverter isso!",
+            text: "Os processos selecionados não serão pagos nesta comissão.",
             icon: 'error',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Sim, reprovar!'
-        }).then((result) => {
+        }).then(async (result)=> {
             if (result.isConfirmed) {
+
+                await changeStatusComissions(1)
                 Swal.fire(
                     'Reprovado!',
-                    'Todas as comissões foram reprovadas',
+                    'Comissões selecionadas foram reprovadas.',
                     'success'
                 )
             }
@@ -38,17 +66,20 @@ document.addEventListener('DOMContentLoaded', async function () {
     })
 
     const ButtonPay = document.querySelector('.pay-confirm');
-    ButtonPay.addEventListener('click', async function(e){
+    ButtonPay?.addEventListener('click', async function(e){
         Swal.fire({
             title: 'Deseja continuar?',
-            text: "Você não poderá reverter isso!",
+            text: "Efetuar baixa em todas comissões selecionadas",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Sim, efetuar baixa!'
-        }).then((result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
+
+                await changeStatusComissions(3)
+
                 Swal.fire(
                     'Tudo certo!',
                     'Baixa efetuada com sucesso!',
@@ -59,9 +90,34 @@ document.addEventListener('DOMContentLoaded', async function () {
  
     })
 
+    const ButtonSendApprove = document.querySelector('.send-approve');
+    ButtonSendApprove?.addEventListener('click', async function(e){
+        Swal.fire({
+            title: 'Deseja continuar?',
+            text: "Enviar novamente para aprovação?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim, enviar!'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+
+                await changeStatusComissions(0)
+
+                Swal.fire(
+                    'Tudo certo!',
+                    'Enviado novamente com sucesso!',
+                    'success'
+                )
+            }
+        })
+ 
+    })
+
     // Manipula o clique no checkbox "checkTableComissoesAll"
     const checkAll = document.querySelector('.checkTableComissoesAll');
-    checkAll.addEventListener('change', async function() {
+    checkAll?.addEventListener('change', async function() {
         // Obtém o estado (marcado ou desmarcado) do checkbox "checkTableComissoesAll"
         var isChecked = this.checked;
 
@@ -75,7 +131,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
 
     const ButtonSendEmail = document.querySelector('.ButtonSendEmail');
-    ButtonSendEmail.addEventListener('click', async function() {
+    ButtonSendEmail?.addEventListener('click', async function() {
         Swal.fire({
             title: 'Enviar relatório por e-mail',
             html: `<input
@@ -130,6 +186,9 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 
 
+
+
+
  
 
 
@@ -138,7 +197,33 @@ document.addEventListener('DOMContentLoaded', async function () {
 });
 
 
+async function changeStatusComissions(id){
+//0 AGUARDANDO APROVAÇÃO
+//1 REPROVADO 
+//2 AGUARDANDO Pagamento
+//3 Pago
 
+    const process = []
+    const listProcess = document.querySelectorAll('.checkTableComissoes')
+    for (let index = 0; index < listProcess.length; index++) {
+        const element = listProcess[index];
+        let data = element.getAttribute('data-json');
+        data = JSON.parse(data);
+
+     
+        if (element.checked) {
+            process.push({
+                id:data.id_history,
+                status:id
+            })
+        }
+        
+        
+    }
+
+
+   await Thefetch('/api/sendPayment', 'POST', { body: JSON.stringify({ body: process}) });
+}
 
 async function HiddenLoader(){
     const loader = document.getElementById("loader");
@@ -174,12 +259,15 @@ async function removerLoader(loader) {
 
 async function loadingContentComission(id){
 
+
   const comissionados = await Thefetch('/api/ContentComissionHistory', 'POST', { body: JSON.stringify({id:id})})
   const tableList = comissionados.table
 
 
+
   document.getElementById('nameComission').textContent = comissionados.nameComission;
   document.getElementById('nameCargo').textContent = 'Vendedor Externo';
+  document.getElementById('refComission').textContent = comissionados.refComission
   document.getElementById('imgComission').src = `https://cdn.conlinebr.com.br/colaboradores/${comissionados.user_comission}`
 
   document.getElementById('valueComission').textContent = comissionados.valueComission
@@ -191,6 +279,7 @@ async function loadingContentComission(id){
   <table id="tableComissoes_info_detail" class="table table-bordered text-nowrap w-100 dataTable no-footer collapsed" style="text-align: left;">
   <thead>
     <tr>
+    <th scope="col"><input class="form-check-input checkTableComissoesAll" checked="" type="checkbox" value=""></th>
       <th scope="col" style="width: 10px;">Modal</th>
       <th scope="col">Processo</th>
       <th scope="col">Auditado</th>
@@ -199,6 +288,7 @@ async function loadingContentComission(id){
       <th scope="col">Efetivo</th>
       <th scope="col">%</th>
       <th scope="col">Comissão</th>
+      <th scope="col">Status</th>
     </tr>
   </thead>
   
@@ -224,11 +314,21 @@ tables['tableComissoes_info_detail'] = $('table#tableComissoes_info_detail').Dat
     },
 });
 
+console.log(tableList)
+
 tables['tableComissoes_info_detail'].clear();
+
+
+
+  //0 AGUARDANDO APROVAÇÃO
+  //1 REPROVADO 
+  //2 AGUARDANDO Pagamento
+  //3 Pago
 
 for (let index = 0; index < tableList.length; index++) {
     const dados = tableList[index];
     const newDados = {
+        check: `<input class="form-check-input checkTableComissoes" data-json='${JSON.stringify(dados)}' value="${dados.commission}" checked="" type="checkbox" id="${dados.id_history}">`,
         modal: `<img title="${dados.modal}" src="/assets/images/${getModalImage(dados.modal)}" style="width: 1.75rem;height: 1.75rem;">`,
         processo: dados.reference_process,
         auditado: dados.audited,
@@ -236,7 +336,14 @@ for (let index = 0; index < tableList.length; index++) {
         inside: createAvatarColumn(dados.id_inside, `${dados.inside_name} ${dados.inside_family_name}`),
         efetivo: formatCurrency(dados.effective),
         'porcentagem': dados.percentage+' %',
-        'comissao': formatCurrency(dados.commission)
+        'comissao': formatCurrency(dados.commission),
+        status: dados.status_process == 0 ?
+                '<span class="badge bg-secondary-transparent ms-2">Ag. Aprovação</span>' : 
+                dados.status_process == 2 ? 
+                '<span class="badge bg-warning-transparent ms-2">Ag. Pagamento</span>' : 
+                dados.status_process == 3 ? 
+                '<span class="badge bg-success-transparent ms-2">Pago</span>' : 
+                '<span class="badge bg-danger-transparent ms-2">Reprovado</span>',
     };
 
     const rowNode = tables['tableComissoes_info_detail'].row.add(Object.values(newDados)).node();
@@ -250,6 +357,15 @@ setTimeout(async () => {
 }, 300);
 
   console.log(comissionados)
+
+  // Manipula o clique no checkbox "checkTableComissoesAll"
+  const check = document.querySelectorAll('.checkTableComissoes');
+  for (let index = 0; index < check.length; index++) {
+      const element = check[index];
+      element.addEventListener('change', async function() {
+          await getInfComissoes();
+      });
+  }
 
 
 }
@@ -321,9 +437,6 @@ function getModalImage(modal) {
             modal == 'IA' ? 'aereo_importacao.svg' : 'aereo_exportacao.svg';
 }
 
-
-
-
 async function initializeDataTable() {
     return $('#table-comissoes-approve').DataTable({
         // responsive: {
@@ -361,8 +474,6 @@ async function initializeDataTable() {
     });
 }
 
-
-
 async function handleSearchComissoes(id) {
   
 
@@ -394,13 +505,14 @@ async function handleSearchComissoes(id) {
         // };
 
         const newDados = {
-            check: `<input class="form-check-input checkTableComissoes" data-json='${JSON.stringify(dados)}' value="${dados.commission}" checked="" type="checkbox" id="">`,
+            check: `<input class="form-check-input checkTableComissoes" data-json='${JSON.stringify(dados)}' value="${dados.commission}" checked="" type="checkbox" id="${dados.id_history}">`,
             modal: `<img title="${dados.modal}" src="/assets/images/${getModalImage(dados.modal)}" style="width: 1.75rem;height: 1.75rem;">`,
             processo: dados.reference_process,
             auditado: dados.audited,
             vendedor: createAvatarColumn(dados.id_seller, `${dados.seller_name} ${dados.seller_family_name}`),
             inside: createAvatarColumn(dados.id_inside, `${dados.inside_name} ${dados.inside_family_name}`),
             efetivo: formatCurrency(dados.effective),
+            status: dados.status,
             // 'porcentagem': dados.percentage+' %',
             // 'comissao': formatCurrency(dados.commission)
         };
@@ -443,4 +555,39 @@ async function handleSearchComissoes(id) {
 
 
 }
+
+function alertToast(titulo, mensagem) {
+    // Gera uma classe única usando um timestamp
+    const uniqueClass = 'toast-' + new Date().getTime();
+
+    // Cria o elemento do toast com a classe única
+    const toastElement = document.createElement('div');
+    toastElement.className = `toast ${uniqueClass} colored-toast bg-success-transparent fade hide`;
+    toastElement.setAttribute('role', 'alert');
+    toastElement.setAttribute('aria-live', 'assertive');
+    toastElement.setAttribute('aria-atomic', 'true');
+
+    const toastInnerHtml = `
+        <div class="toast-header bg-success text-fixed-white">
+     
+            <strong class="me-auto title">${titulo}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">${mensagem}</div>
+    `;
+
+    toastElement.innerHTML = toastInnerHtml;
+
+    // Adiciona o elemento do toast ao contêiner
+    const toastContainer = document.querySelector('.toast-container');
+    toastContainer.appendChild(toastElement);
+
+    // Cria e armazena o objeto Toast do Bootstrap no array
+    const toastInstance = new bootstrap.Toast(toastElement);
+    Alltoasts.push(toastInstance);
+
+    // Exibe o objeto Toast
+    toastInstance.show();
+}
+
 

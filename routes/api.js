@@ -76,6 +76,22 @@ try {
 }
 });
 
+router.post('/sendPayment', async (req, res, next) => {
+  const {body} = req.body
+  //0 PENDENTE
+  //1 AGUARDANDO APROVAÇÃO
+  //2 APROVADO
+  //3 REPROVADO 
+  try {
+    const result = await commission.sendPayment(body)
+      res.status(200).json(result)
+  } catch (error) {
+      res.status(404).json('error')   
+  }
+  });
+
+
+
 router.post('/ContentComissionHistory', async (req, res, next) => {
   const {id} = req.body
   try {
@@ -85,7 +101,7 @@ router.post('/ContentComissionHistory', async (req, res, next) => {
     console.log(error)
       res.status(404).json(error)   
   }
-  });
+});
  
 
 

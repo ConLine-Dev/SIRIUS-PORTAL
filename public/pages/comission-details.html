@@ -597,7 +597,7 @@
         <!-- End::app-sidebar -->
         <!-- Start::app-content -->
         <div class="main-content app-content">
-            <div class="container-lg">
+            <div class="container-fluid">
                 <div class="row">
                     <div class="col-xl-12">
                       <div class="card custom-card">
@@ -615,9 +615,14 @@
                                   </a>
                                 </h4>
                                 <a href="javascript:void(0);" class="fw-semibold">
-                                  <i class="bi bi-briefcase me-1"></i> <span id="nameCargo"></span> </a>
+                                  <i class="bi bi-briefcase me-1"></i> <span id="nameCargo"></span> 
+                                </a>
+                                <br>
+                                  <a href="javascript:void(0);" class="fw-semibold">
+                                    <i class="bi bi-briefcase me-1"></i> <span id="refComission"></span> 
+                                  </a>
                               
-                                <div class="d-flex fs-14 mt-3">
+                                <div class="d-flex fs-14 mt-1">
                                   <div>
                                     <p class="mb-1">
                                       <i class="bi bi-geo-alt me-2"></i>Itajaí, Santa Catarina.
@@ -637,58 +642,7 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="btn-list" style="display: flex;">
-                             
-                              <a class="btn btn-danger btn-sm btn-wave waves-effect waves-light pay-confirm">Efetuar Baixa</a>
-
-                              
-
-                              <div class="dropdown">
-                                <a href="javascript:void(0);" class="btn btn-success-light btn-sm btn-wave waves-effect waves-light" data-bs-toggle="dropdown" aria-expanded="true"> Exportar <i class="ri-arrow-down-s-line align-middle ms-1 d-inline-block"></i>
-                                </a>
-                                <ul class="dropdown-menu" role="menu" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(0px, 31px);" data-popper-placement="bottom-end">
-                                  <li>
-                                    <a class="dropdown-item" href="javascript:void(0);">PDF</a>
-                                  </li>
-                                  <li>
-                                    <a class="dropdown-item" href="javascript:void(0);">Excel</a>
-                                  </li>
-                                  <li>
-                                    <a class="dropdown-item ButtonSendEmail" href="#">E-mail</a>
-                                  </li>
-                                </ul>
-                              </div>
-
-                              <div class="dropdown">
-                                <a href="javascript:void(0);" class="btn btn-success-light btn-sm btn-wave waves-effect waves-light" data-bs-toggle="dropdown" aria-expanded="true"> Ação <i class="ri-arrow-down-s-line align-middle ms-1 d-inline-block"></i>
-                                </a>
-                                <ul class="dropdown-menu" role="menu" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(0px, 31px);" data-popper-placement="bottom-end">
-                                  <li>
-                                    <a style="white-space: nowrap;" class="dropdown-item" href="javascript:void(0);">Envia para aprovação</a>
-                                  </li>
-                                  <li>
-                                    <a style="white-space: nowrap;" class="dropdown-item modal-effect btn-approve" data-id="89" data-bs-effect="effect-flip-vertical" data-bs-toggle="modal" href="#modalAprovar">Aprovar</a>
-                                  </li>
-                                  <li>
-                                    <a style="white-space: nowrap;" class="dropdown-item repprove-confirm" href="javascript:void(0);">Reprovar</a>
-                                  </li>
-                                
-                                </ul>
-                              </div>
-                             
-                              <!-- <a href="javascript:void(0);" class="btn btn-warning">
-                                <i class="bi bi-download me-1"></i> Efetuar Baixa 
-                              </a>
-                              <a href="javascript:void(0);" class="btn btn-primary-light">
-                                <i class="bi bi-download me-1"></i> Exportar 
-                              </a>
-                              <a href="javascript:void(0);" class="btn btn-icon btn-primary-light btn-wave waves-effect waves-light">
-                                <i class="bi-download"></i>
-                              </a>
-                              <a href="javascript:void(0);" class="btn btn-icon btn-primary-light btn-wave waves-effect waves-light">
-                                <i class="ri-share-line"></i>
-                              </a> -->
-                            </div>
+                          
                           </div>
                         </div>
                       </div>
@@ -696,20 +650,57 @@
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-8">
+                    <div class="col-lg-9">
                       <div class="card custom-card">
-                        <div class="card-header">
-                          <div class="card-title">
-                            <h5 class="mb-0 fw-semibold fs-22"> Comissões por Processo </h5>
+                        <div class="card-header justify-content-between">
+                          <div class="card-title"> Comissões por Processo  </div>
+                          <div class="d-flex flex-wrap gap-2">
+                            <div>
+                              <button class="btn btn-primary btn-sm btn-wave waves-effect waves-light pay-confirm">Efetuar Baixa</button>
+                            </div>
+                         
+
+                            <div class="dropdown">
+                              <a href="javascript:void(0);" class="btn btn-success btn-sm btn-wave waves-effect waves-light" data-bs-toggle="dropdown" aria-expanded="false"> Exportar <i class="ri-arrow-down-s-line align-middle ms-1 d-inline-block"></i>
+                              </a>
+                              <ul class="dropdown-menu" role="menu">
+                                <li>
+                                  <a class="dropdown-item " href="javascript:void(0);">PDF</a>
+                                </li>
+                                <li>
+                                  <a class="dropdown-item " href="javascript:void(0);">Excel</a>
+                                </li>
+                                <li>
+                                  <a class="dropdown-item " href="javascript:void(0);">E-Mail</a>
+                                </li>
+                              </ul>
+                            </div>
+                            <div class="dropdown">
+                              <a href="javascript:void(0);" class="btn btn-success btn-sm btn-wave waves-effect waves-light" data-bs-toggle="dropdown" aria-expanded="false"> Ação <i class="ri-arrow-down-s-line align-middle ms-1 d-inline-block"></i>
+                              </a>
+                              <ul class="dropdown-menu" role="menu">
+                                <li>
+                                  <a class="dropdown-item send-approve" style="white-space: nowrap;" href="javascript:void(0);">Enviar para Aprovação</a>
+                                </li>
+                                <li>
+                                  <a class="dropdown-item btn-approve" href="javascript:void(0);">Aprovar</a>
+                                </li>
+                                <li>
+                                  <a class="dropdown-item  repprove-confirm" href="javascript:void(0);">Reprovar</a>
+                                </li>
+                              </ul>
+                            </div>
+                           
                           </div>
                         </div>
+                        
                         <div class="card-body p-1 candidate-edu-timeline">
                     
                         </div>
                       </div>
              
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-3">
                         <div class="card custom-card">
                           <div class="card-header justify-content-between">
                             <div class="card-title"> Linha do Tempo </div>
@@ -798,7 +789,7 @@
             <div class="card-body bodyCardComissoes">
               <div class="cardLoader"></div>
   
-                <table id="table-comissoes-approve" class="table table-bordered text-nowrap w-100 dataTable no-footer collapsed">
+                <table id="table-comissoes-approve2" class="table table-bordered text-nowrap w-100 dataTable no-footer collapsed">
                   <thead>
                     <tr>
                       <th scope="col"><input class="form-check-input checkTableComissoesAll" checked="" type="checkbox" value=""></th>
@@ -808,6 +799,7 @@
                       <th scope="col">Vendedor</th>
                       <th scope="col">Inside</th>
                       <th scope="col">Efetivo</th>
+                      <!-- <th scope="col">Status</th> -->
                       <!-- <th scope="col">%</th> -->
                       <!-- <th scope="col">Comissão</th> -->
                     </tr>
@@ -821,8 +813,8 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-primary">Enviar para pagamento</button>
-            <button class="btn btn-light" data-bs-dismiss="modal">Sair</button>
+            <button class="btn btn-primary btn_enviar_pagamento">Enviar para pagamento</button>
+            <button class="btn btn-light btn_close_modal" data-bs-dismiss="modal">Sair</button>
           </div>
         </div>
       </div>
