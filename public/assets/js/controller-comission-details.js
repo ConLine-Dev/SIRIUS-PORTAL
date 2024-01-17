@@ -114,6 +114,35 @@ document.addEventListener('DOMContentLoaded', async function () {
         })
  
     })
+    
+
+    const ButtonCancel = document.querySelector('.cancel-confirm');
+    ButtonCancel?.addEventListener('click', async function(e){
+        const id = this.getAttribute('id')
+
+        Swal.fire({
+            title: 'Deseja continuar?',
+            text: "Cancelar todas comissões?",
+            icon: 'danger',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim, cancelar!'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+
+                await changeStatusAllComissions(id)
+
+                Swal.fire(
+                    'Tudo certo!',
+                    'Comissões canceladas com sucesso!',
+                    'success'
+                )
+            }
+        })
+ 
+    })
+    
 
     // Manipula o clique no checkbox "checkTableComissoesAll"
     const checkAll = document.querySelector('.checkTableComissoesAll');
@@ -183,20 +212,19 @@ document.addEventListener('DOMContentLoaded', async function () {
           });
     });
 
-
-
-
-
-
-
- 
-
+    // Manipula o clique no checkbox "checkTableComissoesAll"
+    const exportPDF = document.querySelector('.exportPDF');
+    exportPDF?.addEventListener('click', async function() {
+  
+    });
 
     await HiddenLoader()
     
 });
 
-
+async function changeStatusAllComissions(id){
+    await Thefetch('/api/cancelPayment', 'POST', { body: JSON.stringify({ body: id}) });
+}
 async function changeStatusComissions(id){
 //0 AGUARDANDO APROVAÇÃO
 //1 REPROVADO 
@@ -271,6 +299,9 @@ async function loadingContentComission(id){
   document.getElementById('imgComission').src = `https://cdn.conlinebr.com.br/colaboradores/${comissionados.user_comission}`
 
   document.getElementById('valueComission').textContent = comissionados.valueComission
+
+  document.querySelector('.cancel-confirm').setAttribute('id', tableList[0].reference_id)
+  
   
   
   
@@ -300,6 +331,7 @@ async function loadingContentComission(id){
 modalBody.innerHTML = createTable;
 
 tables['tableComissoes_info_detail'] = $('table#tableComissoes_info_detail').DataTable({
+   
     order: [],
     columnDefs: [
         { "orderable": false, "targets": [0, 1, 2] },
@@ -342,7 +374,9 @@ for (let index = 0; index < tableList.length; index++) {
                 dados.status_process == 2 ? 
                 '<span class="badge bg-warning-transparent ms-2">Ag. Pagamento</span>' : 
                 dados.status_process == 3 ? 
-                '<span class="badge bg-success-transparent ms-2">Pago</span>' : 
+                '<span class="badge bg-success-transparent ms-2">Pago</span>' :
+                dados.status_process == 5 ? 
+                '<span class="badge bg-danger-transparent ms-2">Cancelado</span>' :
                 '<span class="badge bg-danger-transparent ms-2">Reprovado</span>',
     };
 

@@ -146,6 +146,13 @@ const commission = {
         return true;
 
     },
+    cancelPayment: async function(id){
+        await executeQuery(`UPDATE commission_history SET status = 5 WHERE reference = ${id}`);
+
+
+        await executeQuery(`UPDATE commission_reference SET status = 1 WHERE id = ${id}`);
+        
+    },
     ComissionHistory: async function(){
         let comission = await executeQuery(`SELECT 
         cr.id AS commission_reference_id,
